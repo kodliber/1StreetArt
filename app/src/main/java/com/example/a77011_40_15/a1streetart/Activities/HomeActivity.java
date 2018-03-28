@@ -18,23 +18,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 //import android.support.v4.app.FragmentActivity;
 
+import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.ArticlesFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.CarrousselFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.ViewpagerFragment;
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.example.a77011_40_15.a1streetart.Utils.Utils;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ArticleFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager = null;
     Context context;
+//    Fragment googlemapFrag;
+    GoogleMapsFragment googlemapFrag;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         context = this;
 
@@ -46,8 +53,9 @@ public class HomeActivity extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            public void onClick(View view)
+            {
+                Snackbar.make(view, "Prêt à prendre une photo ?", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
         });
@@ -63,8 +71,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         fragmentManager = getFragmentManager();
-        //TODO charger la carte dans le fragment frtMap
-        Fragment googlemapFrag = new GoogleMapsFragment();
+        googlemapFrag = new GoogleMapsFragment();
         loadFragment(googlemapFrag);
         //TODO quand on clique sur la carte, on passe à l'activité du parcours
 
@@ -78,20 +85,22 @@ public class HomeActivity extends AppCompatActivity
     public void loadFragment(Fragment fragment, int cible)
     {
         fragmentManager.beginTransaction()
-                .replace(cible,fragment)
+                .replace(cible, fragment)
                 .addToBackStack(null)
                 .commit();
     }
+
     public void loadFragment(Fragment fragment)
     {
         fragmentManager.beginTransaction()
-                .replace(R.id.fgtMap,fragment)
+                .replace(R.id.fgtMap, fragment)
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -101,14 +110,16 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -123,12 +134,24 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
+        if (id == R.id.action_login) {
+            LatLng test = new LatLng(40.7143528, -74.0059731);
+            googlemapFrag.walkTo(test);
+            return true;
+        }
+
+        if (id == R.id.action_exit) {
+            finish();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -149,5 +172,15 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * ici c'est l'interface du fragment d'image qui déplace la map
+     * @param toto
+     */
+    @Override
+    public void ShowOnMap(LatLng toto)
+    {
+        googlemapFrag.walkTo(toto);
     }
 }

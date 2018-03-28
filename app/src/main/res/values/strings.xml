@@ -10,6 +10,8 @@
     <string name="action_settings">Réglages</string>
     <string name="action_quit">Quitter</string>
     <string name="action_map">carto</string>
+    <string name="action_connexion">connexion</string>
+    <string name="action_search">rechercher</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="articles_latestnews">Les derniers spots trouvés</string>

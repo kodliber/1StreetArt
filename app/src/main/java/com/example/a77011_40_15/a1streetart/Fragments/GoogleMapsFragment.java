@@ -17,8 +17,10 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -41,10 +43,10 @@ import static android.content.Context.LOCATION_SERVICE;
 public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
 
     MapView mapView;
-    GoogleMap mMap;
+    static GoogleMap mMap;
     Context context;
 
-    private int ZOOM = 20;
+    //    private int ZOOM = 20;
     private OnFragmentInteractionListener mListener;
     private LocationManager locationManager;
     private long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // en mètres
@@ -53,26 +55,32 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     double longitude;
     private Location location;
 
-    public GoogleMapsFragment() {
+    public GoogleMapsFragment()
+    {
         // Required empty public constructor
     }
 
     /**
      * "constructeur évolué" : ici on peut passer le zoom, en utilisant les paramètres.
      */
-    public static GoogleMapsFragment newInstance() {
+    public static GoogleMapsFragment newInstance()
+    {
         GoogleMapsFragment fragment = new GoogleMapsFragment();
         return fragment;
     }
 
+
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_google_maps, container, false);
 
@@ -86,14 +94,15 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+/*    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri)
+    {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
-//    @Override
+    //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
 //        if (context instanceof OnFragmentInteractionListener) {
@@ -105,28 +114,33 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
 //    }
     @TargetApi(23)
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
         this.context = context;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             this.context = activity.getBaseContext();
         }
     }
+
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener = null;
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         mMap = googleMap;
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -165,7 +179,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
                         longitude = location.getLongitude();
                         LatLng moi = new LatLng(latitude, longitude);
                         LatLng paris = new LatLng(48.859489, 2.320582);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(paris, 11));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(paris, Constantes.ZOOM));
                     }
                 }
 // else {
@@ -181,26 +195,30 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location)
+    {
         mMap.clear();// efface les markers précédents
         LatLng moi = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(moi).title("here"));
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(moi, ZOOM));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moi, 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(moi, Constantes.ZOOM));
     }
 
     @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
+    public void onStatusChanged(String s, int i, Bundle bundle)
+    {
 
     }
 
     @Override
-    public void onProviderDisabled(String s) {
+    public void onProviderEnabled(String s)
+    {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s)
+    {
 
     }
 
@@ -214,8 +232,20 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+//        void onFragmentInteraction(Uri uri);
+//        void walkTo();
     }
+
+    public void walkTo(double latitude, double longitude){
+        LatLng test = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
+    }
+
+    public void walkTo(LatLng test){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
+    }
+
 }

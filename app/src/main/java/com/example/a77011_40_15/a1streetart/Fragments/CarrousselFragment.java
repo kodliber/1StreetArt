@@ -85,6 +85,8 @@ public class CarrousselFragment extends Fragment
 
         String[] imageNames = {"image1", "image2", "image3", "image4"};
         String[] imageDesc = {"fleurs1\najouté par Bob", "Tigre\npar Julie", "Le tiequar\npar SuperMax", "Soleil\npar Andrea"};
+        Double[] imageLatitude = {48.83673193, 48.84283295, 48.84644802, 48.83808778};
+        Double[] imageLongitude = {2.35153525, 2.3642382, 2.37968772, 2.39170402 };
 
 //        first =  new ArticleFragment();
 //        second = new ArticleFragment();
@@ -96,7 +98,7 @@ public class CarrousselFragment extends Fragment
         {
             for (int i = 0; i < imageNames.length; i++)
             {
-                ArticleFragment t = ArticleFragment.newInstance(imageNames[i], imageDesc[i]);
+                ArticleFragment t = ArticleFragment.newInstance(imageNames[i], imageDesc[i], imageLatitude[i], imageLongitude[i] );
                 fl.add(t);
             }
         }
