@@ -244,8 +244,11 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
     }
 
-    public void walkTo(LatLng test){
+    public void walkTo(LatLng test, String nom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(test).title(nom));
+
     }
 
 }

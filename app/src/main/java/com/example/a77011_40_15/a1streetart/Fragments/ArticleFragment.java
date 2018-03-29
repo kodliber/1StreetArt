@@ -3,11 +3,8 @@ package com.example.a77011_40_15.a1streetart.Fragments;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +40,13 @@ public class ArticleFragment extends Fragment {
     private String mParam3;
     private String mParam4;
 
-    private OnFragmentInteractionListener mListener = new OnFragmentInteractionListener() {
+    private OnFragmentInteractionListener mListener;/* = new OnFragmentInteractionListener() {
         @Override
         public void ShowOnMap(LatLng toto)
         {
 
         }
-    };
+    };*/
     Context context;
 
     public ArticleFragment()
@@ -108,24 +105,16 @@ public class ArticleFragment extends Fragment {
         }
 
         // déclencher l'interface quand on clique une image
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view)
+            public void onClick(View view)
             {
 //                LatLng toto = new LatLng(40.7143528, -74.0059731);
                 double l1 = getArguments().getDouble(ARG_LATITUDE);
                 double l2 = getArguments().getDouble(ARG_LONGITUDE);
                 LatLng toto = new LatLng(l1,l2);
-                mListener = new OnFragmentInteractionListener() {
-                    @Override
-                    public void ShowOnMap(LatLng toto)
-                    {
 
-                    }
-                };
-//                mListener.ShowOnMap(toto); //TODO le mListener risque d'être nul !!
-
-                return false;
+                if (mListener != null) mListener.ShowOnMap(toto, getArguments().getString(ARG_NOM)) ;
             }
         });
 
@@ -193,7 +182,7 @@ public class ArticleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(String toto);
-        void ShowOnMap(LatLng toto);
+        void ShowOnMap(LatLng toto, String nom);
     }
 
     private int getDrawableResIdByName(String resName)

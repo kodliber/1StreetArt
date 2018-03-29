@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 //import android.support.v4.app.FragmentActivity;
 
 import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
@@ -136,7 +137,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.action_login) {
             LatLng test = new LatLng(40.7143528, -74.0059731);
-            googlemapFrag.walkTo(test);
+            googlemapFrag.walkTo(test, "NY");
             return true;
         }
 
@@ -179,8 +180,9 @@ public class HomeActivity extends AppCompatActivity
      * @param toto
      */
     @Override
-    public void ShowOnMap(LatLng toto)
+    public void ShowOnMap(LatLng toto, String nom)
     {
-        googlemapFrag.walkTo(toto);
+        googlemapFrag.walkTo(toto, nom);
+//        Toast.makeText(context, "o", Toast.LENGTH_LONG).show();
     }
 }
