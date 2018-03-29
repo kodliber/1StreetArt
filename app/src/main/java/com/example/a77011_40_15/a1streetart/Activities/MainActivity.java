@@ -9,7 +9,7 @@ import com.example.a77011_40_15.a1streetart.R;
 
 /**
  * Sur l'activite d'accueil, on dirige soit vers les permissions ou bien l'application
- * Concretementm nous verifions la version de l'OS et si c'est une v6+ demander l'autorisation pour les permissions
+ * Concretement nous vérifions la version de l'OS et si c'est une v6+ demander l'autorisation pour les permissions
  */
 public class MainActivity extends AppCompatActivity
 {
@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity
         {
             intent = new Intent(this, HomeActivity.class);
         }
+
+
 
         startActivity(intent);
         finish();
