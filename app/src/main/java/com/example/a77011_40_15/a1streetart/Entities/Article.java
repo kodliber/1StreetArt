@@ -4,13 +4,26 @@ import java.util.Date;
 
 /**
  * Created by 77011-40-15 on 26/03/2018.
- * classe qui décrit les oeuvres de Street Art
+ * classe qui décrit les oeuvres de Street Art.
+ * Les informations seront stockees dans la BDD SQLite.
  */
 
 public class Article {
-    private String nom;
+    private String name;
     private int id;
     private int res; // ressource graphique dans les drawable
+    private String description;
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
     private Date date; // date du cliché, pour comparer dans le temps si une oeuvre a plusieurs clichés ?
 
     public Date getDate() {
@@ -21,12 +34,12 @@ public class Article {
         this.date = date;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String nom) {
+        this.name = nom;
     }
 
     public int getId() {
