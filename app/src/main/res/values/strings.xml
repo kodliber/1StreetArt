@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">1StreetArt</string>
+    <string name="app_version">1.0</string>
+    <string name="app_author">Frederic</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Réglages</string>
+    <string name="action_quit">Quitter</string>
+    <string name="action_map">carto</string>
+    <string name="action_connexion">connexion</string>
+    <string name="action_search">rechercher</string>
+
+    <string name="articles_latestnews">Les derniers spots trouvés</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_zoom">zoom par défaut</string>
+    <string name="default_zoom_value">13</string>
+    <string name="photo">photo</string>
+    <string name="dummy">dummy</string>
+    <string name="drawerbackground">illustration d\'en-tete</string>
+
+    Inspection 'Android Resources Validation' options
+</resources>
