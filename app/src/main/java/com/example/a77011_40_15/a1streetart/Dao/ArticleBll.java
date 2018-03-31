@@ -1,12 +1,14 @@
 package com.example.a77011_40_15.a1streetart.Dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.a77011_40_15.a1streetart.Entities.Article;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 
 public class ArticleBll {
 
-    public static long insertArticle(Article article, Context context)
+    public long insertArticle(Article article, Context context)
     {
         long id = 0;
 
@@ -14,12 +16,14 @@ public class ArticleBll {
             ArticleDao articleDao = new ArticleDao(context);
             articleDao.openForWrite();
             id = articleDao.insertArticle(article);
+            article.setId((int) id);
             articleDao.close();
+            Log.i(Constantes.MYLOGTAG, "Photo datas have been stored in the DB");
         }
         return id;
     }
 
-    public static void deleteArticle(int id, Context context)
+    public void deleteArticle(int id, Context context)
     {
 
         if (id > 0 && context != null) {
@@ -30,7 +34,7 @@ public class ArticleBll {
         }
     }
 
-    public static long getArticle(int id, Context context)
+    public long getArticle(int id, Context context)
     {
         long i = 0;
         if (id > 0 && context != null) {
@@ -42,7 +46,7 @@ public class ArticleBll {
         return i;
     }
 
-    public static long updateArticle(int id, Article article, Context context){
+    public long updateArticle(int id, Article article, Context context){
         long i = 0;
         if (id > 0 && context != null) {
             ArticleDao articleDao = new ArticleDao(context);

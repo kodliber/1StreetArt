@@ -1,5 +1,6 @@
 package com.example.a77011_40_15.a1streetart.Entities;
 
+import java.net.URI;
 import java.util.Date;
 
 /**
@@ -13,6 +14,18 @@ public class Article {
     private int id;
     private int res; // ressource graphique dans les drawable
     private String description;
+    private long date; // date du cliché, pour comparer dans le temps si une oeuvre a plusieurs clichés ?
+    private String  uri;
+
+    public String getUri()
+    {
+        return uri;
+    }
+
+    public void setUri(String uri)
+    {
+        this.uri = uri;
+    }
 
     public String getDescription()
     {
@@ -24,13 +37,11 @@ public class Article {
         this.description = description;
     }
 
-    private Date date; // date du cliché, pour comparer dans le temps si une oeuvre a plusieurs clichés ?
-
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
