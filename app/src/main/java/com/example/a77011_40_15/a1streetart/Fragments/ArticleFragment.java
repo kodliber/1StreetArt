@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,7 +43,7 @@ public class ArticleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;/* = new OnFragmentInteractionListener() {
         @Override
-        public void ShowOnMap(LatLng toto)
+        public void showOnMap(LatLng toto)
         {
 
         }
@@ -117,7 +116,7 @@ public class ArticleFragment extends Fragment {
                 String markerName = mParam1;
 
                 if (mListener != null)
-                    mListener.ShowOnMap(emplacement, markerName);
+                    mListener.showOnMap(emplacement, markerName);
                 else
                     Log.e("EXCEPTION mListener", "check the mListener");
             }
@@ -187,7 +186,7 @@ public class ArticleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(String toto);
-        void ShowOnMap(LatLng toto, String nom);
+        void showOnMap(LatLng toto, String nom);
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         default void TestPrint(){
