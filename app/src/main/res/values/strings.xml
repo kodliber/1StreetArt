@@ -22,6 +22,10 @@
     <string name="dummy">dummy</string>
     <string name="drawerbackground">illustration d\'en-tete</string>
     <string name="warningNoPosition">Geolocalisation impossible</string>
+    <string name="inspectorTitle">Inspection de la BDD</string>
+    <string name="navinspectortitre">Inspecter la BDD</string>
+    <string name="navmanagetitle">Reglages</string>
+    <string name="navmaptitle">Afficher la carte</string>
 
     Inspection 'Android Resources Validation' options
 </resources>

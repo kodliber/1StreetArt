@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
+import com.example.a77011_40_15.a1streetart.Fragments.DbInspectorFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
 import com.example.a77011_40_15.a1streetart.R;
 import com.example.a77011_40_15.a1streetart.Utils.MapsUtils;
@@ -37,8 +38,9 @@ import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ArticleFragment.OnFragmentInteractionListener {
-    FragmentManager fragmentManager = null;
     Context context;
+    FragmentManager fragmentManager = null;
+    DbInspectorFragment dbi = null;
     Uri uri;
     ArticleBll b;
 
@@ -161,7 +163,7 @@ public class HomeActivity extends AppCompatActivity
             return true;
         }
 
-        // ceci est un test pour la fonction walkTo
+        // ceci est un test pour la fonction walkTo vers New York
         if (id == R.id.action_login) {
             LatLng test = new LatLng(40.7143528, -74.0059731);
             googlemapFrag.walkTo(test, "NY");
@@ -188,9 +190,15 @@ public class HomeActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
+            loadFragment(googlemapFrag);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_dbinspector) {
+            // afficher le fragment dbInspector
+            if (dbi == null)
+                dbi = new DbInspectorFragment();
+//            dbi = findViewById();
+            loadFragment(dbi);
 
         } else if (id == R.id.nav_share) {
 
@@ -204,7 +212,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     /**
-     * ici c'est l'interface du fragment d'image qui déplace la map
+     * implementation de l'interface du fragment Article
+     * <br>
+     * un clic sur l'imageView declenche un deplacement de la carte en appelant la methode publique walkTo du fragment Map.
      *
      * @param place est un objet contenant des coordonnées GPS
      */
@@ -217,7 +227,8 @@ public class HomeActivity extends AppCompatActivity
 
     /**
      * Test des methodes par defaut dans les interfaces.
-     * En principe disponible avec Java 8 / android SDK 7
+     * En principe disponible avec Java 8 / android SDK 7.
+     * Apparemment sans resultat.
      */
     @Override
     public void TestPrint()
@@ -237,30 +248,11 @@ public class HomeActivity extends AppCompatActivity
     {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             storePhotoToDb();
-/*            Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
-            *//*
-            FIXMe crash probable si la clef pour l'API google est invalide.
-            Possible si l'application change de signature
-            Prevoir une verification de la validite de l'acces a l'API
-            *//*
-            MapsUtils.LocalizeMe(context);
-            // enregistrer dans la base de donnees
-            Article photo = new Article();
-//            Date d = new Date();
-
-            photo.setDate(new Date().getTime());
-            photo.setDescription("essai");
-            photo.setName(uri.toString());
-            photo.setRes(0); // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
-            photo.setUri(uri.toString());
-
-            b = new ArticleBll();
-            b.insertArticle(photo, context);*/
-
         }
     }
 
-    public void storePhotoToDb(){
+    public void storePhotoToDb()
+    {
         Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
             /*
             FIXMe crash probable si la clef pour l'API google est invalide.
