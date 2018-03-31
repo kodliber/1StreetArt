@@ -48,7 +48,7 @@ public class CarrousselFragment extends Fragment
     ArticleFragment second;
     ArticleFragment third;
     ArticleFragment fourth;
-    ArrayList<Fragment> fl = new ArrayList<>();
+    public ArrayList<Fragment> fl = new ArrayList<>();
 
     Context context;
     private int NUM_ITEMS = 4;

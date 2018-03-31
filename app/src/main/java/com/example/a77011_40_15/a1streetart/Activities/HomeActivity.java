@@ -29,10 +29,11 @@ import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
 import com.example.a77011_40_15.a1streetart.R;
 import com.example.a77011_40_15.a1streetart.Utils.Functions;
 import com.example.a77011_40_15.a1streetart.Utils.MapsUtils;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
-
+import com.example.a77011_40_15.a1streetart.Fragments.CarrousselFragment;
 //import android.support.v4.app.FragmentActivity;
 
 
@@ -56,6 +57,8 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("StreetArt");
         setSupportActionBar(toolbar);
+
+
 
         // le FAB démarre l'application photo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -92,10 +95,22 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         fragmentManager = getFragmentManager();
         googlemapFrag = new GoogleMapsFragment();
         loadFragment(googlemapFrag);
+
+        // acceder aux fragment d'images
+
+
+//        Fragment carroussel = new ArticleFragment();
+//        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
+/*
+        android.support.v4.app.FragmentManager supportFragmentManager = getSupportFragmentManager();
+        CarrousselFragment carroussel;
+        carroussel = (CarrousselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
+        android.support.v4.app.Fragment testf = carroussel.fl.get(1);
+*/
+
         //fred quand on clique sur la carte, on passe à l'activité du parcours
 
     }
@@ -159,6 +174,7 @@ public class HomeActivity extends AppCompatActivity
         {
             LatLng test = new LatLng(40.7143528, -74.0059731);
             googlemapFrag.walkTo(test, "NY");
+            TestPrint();
             return true;
         }
 
@@ -216,6 +232,15 @@ public class HomeActivity extends AppCompatActivity
     }
 
     /**
+     * Test des methodes par defaut dans les interfaces.
+     * En principe disponible avec Java 8 / android SDK 7
+     */
+    @Override
+    public void TestPrint(){
+        ArticleFragment.OnFragmentInteractionListener.super.TestPrint();
+    }
+
+    /**
      * Retour de l'application photo appelée par le <i>floating action button</i>
      * La variable Uri est peuplée dans l'intervalle, elle contient l'endroit où se trouve l'image.
      *
@@ -228,8 +253,11 @@ public class HomeActivity extends AppCompatActivity
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
         {
             Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
-            //FIXMe crash a l'appel de cette methode. cause possible : clef pour l'API google non valide.
-            //fred Prevoir une verification de la validite de l'acces a l'API
+            /*
+            FIXMe crash probable si la clef pour l'API google est invalide.
+            Possible si l'application change de signature
+            Prevoir une verification de la validite de l'acces a l'API
+            */
             MapsUtils.LocalizeMe(context);
         }
     }

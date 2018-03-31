@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -104,17 +107,18 @@ public class ArticleFragment extends Fragment {
             imageView.setImageResource(idRessource);
         }
 
-        // déclencher l'interface quand on clique une image
+        // un clic sur l'imageView declenche un deplacement de la GoogleMap
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-//                LatLng toto = new LatLng(40.7143528, -74.0059731);
-                double l1 = getArguments().getDouble(ARG_LATITUDE);
-                double l2 = getArguments().getDouble(ARG_LONGITUDE);
-                LatLng toto = new LatLng(l1,l2);
+                LatLng emplacement = new LatLng(getArguments().getDouble(ARG_LATITUDE), getArguments().getDouble(ARG_LONGITUDE));
+                String markerName = getArguments().getString(ARG_NOM);
 
-                if (mListener != null) mListener.ShowOnMap(toto, getArguments().getString(ARG_NOM)) ;
+                if (mListener != null)
+                    mListener.ShowOnMap(emplacement, markerName);
+                else
+                    Log.e("EXCEPTION mListener", "check the mListener");
             }
         });
 
@@ -148,18 +152,18 @@ public class ArticleFragment extends Fragment {
     @Override
     public void
     onAttach(Activity activity)
-        {
-            this.context = activity;
-            super.onAttach(activity);
+    {
+        this.context = activity;
+        super.onAttach(activity);
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                this.context = activity.getBaseContext();
-            }
-
-            if (activity instanceof OnFragmentInteractionListener) {
-                mListener = (OnFragmentInteractionListener) activity;
-            }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            this.context = activity.getBaseContext();
         }
+
+        if (activity instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) activity;
+        }
+    }
 
 
     @Override
@@ -183,11 +187,19 @@ public class ArticleFragment extends Fragment {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(String toto);
         void ShowOnMap(LatLng toto, String nom);
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        default void TestPrint(){
+//            Toast.makeText(this.getActivity(), Toast.LENGTH_LONG).show();
+            Log.i("FRED", "tu es la ?");
+        }
+
     }
 
     private int getDrawableResIdByName(String resName)
     {
         String pkg = this.context.getPackageName();
+
         return this.getResources().getIdentifier(resName, "drawable", pkg);
     }
 }
