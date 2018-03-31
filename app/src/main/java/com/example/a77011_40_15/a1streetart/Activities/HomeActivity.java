@@ -264,7 +264,7 @@ public class HomeActivity extends AppCompatActivity
 
     /**
      * cette methode est declenchee avant l'ouverture de la camera
-     * @return
+     * @return fournit un objet File a l'activite camera
      */
     private File getMediaFile()
     {

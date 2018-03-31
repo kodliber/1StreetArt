@@ -23,13 +23,13 @@ import java.util.ArrayList;
 
 /**
  * Un "Carroussel"
- * Affiche en ecran Home sous la carte.
+ * <p>Affiche en ecran Home sous la carte.
  * Son rôle est d'afficher une série d'images cliquable.
  * Le clic sur image dirige l'utilisateur sur le chemin depuis sa position vers le streetart.
  * <p>
- * Il s'agit d'un viewpager, qui a donc besoin de fragments.
- * <p>
- * NOTE : ce carroussel doit rester en V4 si l'on veut l'afficher dans le viewpager.
+ * Il s'agit d'un ViewPager, qui a donc besoin de fragments.
+ * <br>
+ * NOTE : ce fragment doit rester en V4 si l'on veut l'afficher dans le viewpager. Utilliser les versions "support" du FragmentManager si besoin.
  * <p>
  * Activities that contain this fragment must implement the
  * {@link CarrousselFragment.OnFragmentInteractionListener} interface
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Use the {@link CarrousselFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarrousselFragment extends Fragment
+public class CarrousselFragment extends android.support.v4.app.Fragment
 {
     private OnFragmentInteractionListener mListener;
 
