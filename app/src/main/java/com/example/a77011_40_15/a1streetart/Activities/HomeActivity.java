@@ -5,8 +5,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,16 +22,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
+import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
 import com.example.a77011_40_15.a1streetart.R;
-import com.example.a77011_40_15.a1streetart.Utils.Functions;
 import com.example.a77011_40_15.a1streetart.Utils.MapsUtils;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
-import com.example.a77011_40_15.a1streetart.Fragments.CarrousselFragment;
+import java.util.Date;
 //import android.support.v4.app.FragmentActivity;
 
 
@@ -42,6 +40,7 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fragmentManager = null;
     Context context;
     Uri uri;
+    ArticleBll b;
 
     GoogleMapsFragment googlemapFrag;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -58,8 +57,6 @@ public class HomeActivity extends AppCompatActivity
         toolbar.setTitle("StreetArt");
         setSupportActionBar(toolbar);
 
-
-
         // le FAB démarre l'application photo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +66,7 @@ public class HomeActivity extends AppCompatActivity
                 Snackbar.make(view, "Prêt à prendre une photo ?", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
 
-                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
-                {
+                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 
                     File file = getMediaFile();
                     uri = Uri.fromFile(file);
@@ -79,8 +75,7 @@ public class HomeActivity extends AppCompatActivity
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
-                } else
-                {
+                } else {
                     Toast.makeText(context, "Pas de camera ?", Toast.LENGTH_LONG).show();
                 }
             }
@@ -135,11 +130,9 @@ public class HomeActivity extends AppCompatActivity
     public void onBackPressed()
     {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START))
-        {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else
-        {
+        } else {
             super.onBackPressed();
         }
     }
@@ -161,25 +154,22 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
+        if (id == R.id.action_settings) {
             Intent i = new Intent(this, SettingsActivity.class);
 
             startActivity(i);
             return true;
         }
 
-// ceci est un test pour la fonction walkTo
-        if (id == R.id.action_login)
-        {
+        // ceci est un test pour la fonction walkTo
+        if (id == R.id.action_login) {
             LatLng test = new LatLng(40.7143528, -74.0059731);
             googlemapFrag.walkTo(test, "NY");
             TestPrint();
             return true;
         }
 
-        if (id == R.id.action_exit)
-        {
+        if (id == R.id.action_exit) {
             finish();
             return true;
         }
@@ -194,23 +184,17 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera)
-        {
+        if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery)
-        {
+        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow)
-        {
+        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage)
-        {
+        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share)
-        {
+        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send)
-        {
+        } else if (id == R.id.nav_send) {
 
         }
 
@@ -225,7 +209,7 @@ public class HomeActivity extends AppCompatActivity
      * @param place est un objet contenant des coordonnées GPS
      */
     @Override
-    public void ShowOnMap(LatLng place, String nom)
+    public void showOnMap(LatLng place, String nom)
     {
         googlemapFrag.walkTo(place, nom);
 //        Toast.makeText(context, "o", Toast.LENGTH_LONG).show();
@@ -236,7 +220,8 @@ public class HomeActivity extends AppCompatActivity
      * En principe disponible avec Java 8 / android SDK 7
      */
     @Override
-    public void TestPrint(){
+    public void TestPrint()
+    {
         ArticleFragment.OnFragmentInteractionListener.super.TestPrint();
     }
 
@@ -250,26 +235,63 @@ public class HomeActivity extends AppCompatActivity
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
-        {
-            Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            storePhotoToDb();
+/*            Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
+            *//*
+            FIXMe crash probable si la clef pour l'API google est invalide.
+            Possible si l'application change de signature
+            Prevoir une verification de la validite de l'acces a l'API
+            *//*
+            MapsUtils.LocalizeMe(context);
+            // enregistrer dans la base de donnees
+            Article photo = new Article();
+//            Date d = new Date();
+
+            photo.setDate(new Date().getTime());
+            photo.setDescription("essai");
+            photo.setName(uri.toString());
+            photo.setRes(0); // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
+            photo.setUri(uri.toString());
+
+            b = new ArticleBll();
+            b.insertArticle(photo, context);*/
+
+        }
+    }
+
+    public void storePhotoToDb(){
+        Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
             /*
             FIXMe crash probable si la clef pour l'API google est invalide.
             Possible si l'application change de signature
             Prevoir une verification de la validite de l'acces a l'API
             */
-            MapsUtils.LocalizeMe(context);
-        }
+        MapsUtils.LocalizeMe(context);
+        // enregistrer dans la base de donnees
+        Article photo = new Article();
+//            Date d = new Date();
+
+        photo.setDate(new Date().getTime());
+        photo.setDescription("essai");
+        photo.setName(uri.toString());
+        photo.setRes(0); // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
+        photo.setUri(uri.toString());
+
+        b = new ArticleBll();
+        b.insertArticle(photo, context);
+
     }
 
     /**
      * cette methode est declenchee avant l'ouverture de la camera
+     *
      * @return fournit un objet File a l'activite camera
      */
     private File getMediaFile()
     {
         File photostorage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File photofile = new File(photostorage, ("AppStreetArt-"+System.currentTimeMillis()) + ".jpg");
+        File photofile = new File(photostorage, ("AppStreetArt-" + System.currentTimeMillis()) + ".jpg");
 
         return photofile;
     }
