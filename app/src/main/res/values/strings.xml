@@ -21,6 +21,7 @@
     <string name="photo">photo</string>
     <string name="dummy">dummy</string>
     <string name="drawerbackground">illustration d\'en-tete</string>
+    <string name="warningNoPosition">Geolocalisation impossible</string>
 
     Inspection 'Android Resources Validation' options
 </resources>

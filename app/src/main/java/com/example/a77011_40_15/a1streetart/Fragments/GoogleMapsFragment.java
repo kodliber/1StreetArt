@@ -11,9 +11,11 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 //import android.support.v4.app.Fragment;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +37,9 @@ import static android.content.Context.LOCATION_SERVICE;
  * ce fragment affiche une Google Map
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MapsFragment.OnFragmentInteractionListener} interface
+ * {@link GoogleMapsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MapsFragment#newInstance} factory method to
+ * Use the {@link GoogleMapsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, LocationListener {
@@ -45,6 +47,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     MapView mapView;
     static GoogleMap mMap;
     Context context;
+    View v;
 
     //    private int ZOOM = 20;
     private OnFragmentInteractionListener mListener;
@@ -70,7 +73,6 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -82,16 +84,15 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_google_maps, container, false);
+//        View view = inflater.inflate(R.layout.fragment_google_maps, container, false);
+        v = inflater.inflate(R.layout.fragment_google_maps, container, false);
 
-        mapView = (MapView) view.findViewById(R.id.mapView);
+        mapView = (MapView) v.findViewById(R.id.mapView);
+//        mapView = (MapView) view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.onResume(); // important
-
         mapView.getMapAsync(this);
-
-
-        return view;
+        return v;
     }
 
 /*    // TODO: Rename method, update argument and hook method into UI event
@@ -173,23 +174,18 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
                     location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                 }
 
-                if (locationManager != null) {
-                    if (location != null) {
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                        LatLng moi = new LatLng(latitude, longitude);
-                        LatLng paris = new LatLng(48.859489, 2.320582);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(paris, Constantes.ZOOM));
-                    }
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    LatLng moi = new LatLng(latitude, longitude);
+                    LatLng paris = new LatLng(48.859489, 2.320582);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(paris, Constantes.ZOOM));
                 }
-// else {
-//                    latitude = 48.45654;
-//                    longitude = 2.3333;
-//                    LatLng sydney = new LatLng(latitude, longitude);
-//                    mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, ZOOM));
-//                }
-
+                else {
+                    Log.e(Constantes.MYLOGTAG, "Localization failed");
+                    Toast.makeText(context,R.string.warningNoPosition ,Toast.LENGTH_LONG).show();
+//                    Snackbar.make(v, R.string.warningNoPosition,Snackbar.LENGTH_SHORT);
+                }
             }
         }
     }
@@ -232,19 +228,20 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener
-    {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
 //        void onFragmentInteraction(Uri uri);
 //        void walkTo();
     }
 
-    public void walkTo(double latitude, double longitude){
+    public void walkTo(double latitude, double longitude)
+    {
         LatLng test = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
     }
 
-    public void walkTo(LatLng test, String nom){
+    public void walkTo(LatLng test, String nom)
+    {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(test, Constantes.ZOOM));
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(test).title(nom));

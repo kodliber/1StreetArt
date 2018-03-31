@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,6 +19,9 @@ import java.util.Map;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+/**
+ * Classe qui comporte des methodes dediee a la gestion de la carte Google.
+ */
 public abstract class MapsUtils implements LocationListener{
 //    public static long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // en mètres
 //    public static long MIN_TIME_BW_UPDATES = 1000 * 60 * 2;
@@ -26,6 +30,7 @@ public abstract class MapsUtils implements LocationListener{
     /**
      * Cette méthode interroge le GPS pour obtenir la localisation actuelle et l'utiliser pour localiser la photo.
      * Pas besoin d'une carte.
+     * Fred: gerer l'absence de connexion GPS
      *
      * @param context
      */
@@ -78,6 +83,9 @@ public abstract class MapsUtils implements LocationListener{
                 }
 
             }
+        }
+        else{
+            Log.i("NOGPS", "No geolocalization could be performed");
         }
 
         return position;

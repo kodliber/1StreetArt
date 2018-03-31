@@ -30,18 +30,17 @@ import com.google.android.gms.maps.model.LatLng;
  * create an instance of this fragment.
  */
 public class ArticleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_RESSOURCE = "param1";
     private static final String ARG_NOM = "param2";
     private static final String ARG_LATITUDE = "param3";
     private static final String ARG_LONGITUDE = "param4";
+    //fred: ajouter et gerer la date
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private String mParam3;
-    private String mParam4;
+    private double mParam3;
+    private double mParam4;
 
     private OnFragmentInteractionListener mListener;/* = new OnFragmentInteractionListener() {
         @Override
@@ -84,8 +83,8 @@ public class ArticleFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_RESSOURCE);
             mParam2 = getArguments().getString(ARG_NOM);
-            mParam3 = getArguments().getString(ARG_LATITUDE);
-            mParam4 = getArguments().getString(ARG_LONGITUDE);
+            mParam3 = getArguments().getDouble(ARG_LATITUDE);
+            mParam4 = getArguments().getDouble(ARG_LONGITUDE);
         }
     }
 
@@ -112,8 +111,10 @@ public class ArticleFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                LatLng emplacement = new LatLng(getArguments().getDouble(ARG_LATITUDE), getArguments().getDouble(ARG_LONGITUDE));
-                String markerName = getArguments().getString(ARG_NOM);
+                mParam3 = getArguments().getDouble(ARG_LATITUDE);
+                mParam4 = getArguments().getDouble(ARG_LONGITUDE);
+                LatLng emplacement = new LatLng(mParam3, mParam4);
+                String markerName = mParam1;
 
                 if (mListener != null)
                     mListener.ShowOnMap(emplacement, markerName);
