@@ -26,6 +26,7 @@
     <string name="navinspectortitre">Inspecter la BDD</string>
     <string name="navmanagetitle">Reglages</string>
     <string name="navmaptitle">Afficher la carte</string>
+    <string name="inspectortitlelist">Liste des photos sur le terminal</string>
 
     Inspection 'Android Resources Validation' options
 </resources>

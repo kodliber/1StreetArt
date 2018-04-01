@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.a77011_40_15.a1streetart.Entities.Article;
+import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 
 public class ArticleBll {
@@ -16,9 +17,16 @@ public class ArticleBll {
             ArticleDao articleDao = new ArticleDao(context);
             articleDao.openForWrite();
             id = articleDao.insertArticle(article);
+            if (id == -1)
+            {
+                Log.i(Constantes.MYLOGTAG, "id is " + id);
+            }
+            else
+            {
+                Log.i(Constantes.MYLOGTAG, "Photo is stored");
+            }
             article.setId((int) id);
             articleDao.close();
-            Log.i(Constantes.MYLOGTAG, "Photo datas have been stored in the DB");
         }
         return id;
     }
@@ -46,7 +54,18 @@ public class ArticleBll {
         return i;
     }
 
-    public long updateArticle(int id, Article article, Context context){
+    public Articles getAllArticles(Context context)
+    {
+        ArticleDao articleDao = new ArticleDao(context);
+        articleDao.openForRead();
+        Articles tout = articleDao.getAllArticles();
+        articleDao.close();
+
+        return tout;
+    }
+
+    public long updateArticle(int id, Article article, Context context)
+    {
         long i = 0;
         if (id > 0 && context != null) {
             ArticleDao articleDao = new ArticleDao(context);
