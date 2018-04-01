@@ -18,16 +18,18 @@ public class Constants {
     public static final int NUM_COL_LONGITUDE = 5;
     public static final String COL_DATE = "DATE";
     public static final int NUM_COL_DATE = 6;
+    final String NOT_NULL = "NOT NULL";
 
     public static final String CREATE_BDD = "CREATE TABLE "
             + TABLE_ARTICLES + " ("+
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             COL_NAME + " TEXT NOT NULL, " +
-            COL_DESC + " TEXT NOT NULL, " +
             COL_URI + " TEXT NOT NULL, " +
+            COL_DESC + " TEXT NOT NULL)";
+/*
+  COL_URI + " TEXT NOT NULL, " +
             COL_LATITUDE + " REAL NOT NULL, " +
             COL_LONGITUDE + " REAL NOT NULL, " +
             COL_DATE + " INTEGER NOT NULL" +
-            ");";
-
+            */
 }
