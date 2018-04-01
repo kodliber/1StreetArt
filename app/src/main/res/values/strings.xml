@@ -26,7 +26,9 @@
     <string name="navinspectortitre">Inspecter la BDD</string>
     <string name="navmanagetitle">Reglages</string>
     <string name="navmaptitle">Afficher la carte</string>
-    <string name="inspectortitlelist">Liste des photos sur le terminal</string>
+    <string name="inspectortitlelist">photos disponibles pour l\'application</string>
+    <string name="switchInclude">Inclure dans la liste</string>
+    <string name="intentPhotos">Ouvrir Google Photos</string>
 
     Inspection 'Android Resources Validation' options
 </resources>

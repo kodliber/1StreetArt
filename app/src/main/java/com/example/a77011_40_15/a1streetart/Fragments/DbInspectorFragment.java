@@ -3,21 +3,27 @@ package com.example.a77011_40_15.a1streetart.Fragments;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.R;
+
+import java.util.ArrayList;
 
 /**
  * Fragment d'inspection de la base de donnees SQLite.
@@ -44,7 +50,8 @@ public class DbInspectorFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Context context;
-    private Activity activity;
+    private Activity activity = null;
+    private Articles lesPhotos = null;
 
     public DbInspectorFragment()
     {
@@ -86,15 +93,15 @@ public class DbInspectorFragment extends Fragment {
     {
         View dbinspectorView = inflater.inflate(R.layout.fragment_db_inspector, container, false);
         // preparer la listview
-        // lire les donnees depuis la BDD SQLite
-        ArticleBll bll = new ArticleBll();
-        Articles lesPhotos = bll.getAllArticles(context); // le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
+
+//        ArticleBll bll = new ArticleBll();// lire les donnees depuis la BDD SQLite
+//        lesPhotos = bll.getAllArticles(context); // le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
 
         // preparer l'adaptateur qui va utiliser les donnees
 
         // preparer le viewholder personnalise : inflater son layout et lier les objets
         //TODO fred  ne pas oublier les donnees qui manquent
-        class customViewHolder extends RecyclerView.ViewHolder {
+/*        class customViewHolder extends RecyclerView.ViewHolder {
             public TextView photouri, photoid, photodesc, photoname;
 
             public customViewHolder(View view)
@@ -105,9 +112,10 @@ public class DbInspectorFragment extends Fragment {
                 photoid = view.findViewById(R.id.dbid);
                 photouri = view.findViewById(R.id.dburi);
             }
-        }
+        }*/
 
         // preparer l'adaptater qui utilise les holders personnalises
+/*
         RecyclerView.Adapter adapter = new RecyclerView.Adapter() {
             // charger le layout du holder
             @Override
@@ -134,13 +142,16 @@ public class DbInspectorFragment extends Fragment {
                 return lesPhotos.size();
             }
         };
+*/
 
         // preparer le recyclerview et lui fournir l'adaptateur
         theRecyclerView = dbinspectorView.findViewById(R.id.recyclerviewinspector);
 
-//        articleAdapter = new ArticleAdapter(context, lesPhotos);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        theRecyclerView.setLayoutManager(mLayoutManager);
 
-        theRecyclerView.setAdapter(adapter);
+        CustomAdapter customAdapter = new CustomAdapter(lesPhotos, context);
+        theRecyclerView.setAdapter(customAdapter);
 
         return dbinspectorView;
     }
@@ -201,4 +212,73 @@ public class DbInspectorFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    //TODO fred  ne pas oublier les donnees qui manquent
+    class CustomViewHolder extends RecyclerView.ViewHolder {
+        public TextView photouri, photoid, photodesc, photoname;
+
+        public CustomViewHolder(View view)
+        {
+            super(view);
+            photoname = view.findViewById(R.id.dbname);
+            photodesc = view.findViewById(R.id.dbdesc);
+            photoid = view.findViewById(R.id.dbid);
+            photouri = view.findViewById(R.id.dburi);
+        }
+    }
+
+    class CustomAdapter extends RecyclerView.Adapter {
+
+        private Articles liste;
+
+        // charger le layout du holder
+        @Override
+        public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            View holder = LayoutInflater.from(context).inflate(R.layout.viewholder_dbinspector, parent, false);
+            // evenement bouton : lancer com.google.android.apps.photos
+
+            Button btnPhotos = holder.findViewById(R.id.btnIntentPhotos);
+
+            btnPhotos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivity(intent);
+                }
+            });
+
+            return new CustomViewHolder(holder);
+        }
+
+        // cette methode va peupler les donnees du holder avec celles du tableau de photos
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position)
+        {
+            Article unePhoto = liste.get(position);
+            String title = unePhoto.getId() + unePhoto.getName();
+            ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
+            ((CustomViewHolder) holder).photoname.setText(title);
+//            ((CustomViewHolder)holder).photoname.setText(unePhoto.getName());
+//            ((CustomViewHolder)holder).photoid.setText(String.valueOf(unePhoto.getId()));
+            ((CustomViewHolder) holder).photouri.setText(unePhoto.getUri());
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            return liste.size();
+        }
+
+        private CustomAdapter(Articles arrayList, Context context)
+        {
+            ArticleBll bll = new ArticleBll();
+            liste = arrayList;
+            liste = bll.getAllArticles(context);// le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
+        }
+
+    }
+
 }

@@ -38,6 +38,7 @@ public class ArticleDao {
 
     public long insertArticle(Article article)
     {
+        // rappel : l'ID est autoincremente (cf. les constantes SQLite de ce projet)
         long i;
         ContentValues content = new ContentValues();
         content.put(Constants.COL_URI, article.getUri());
@@ -110,7 +111,7 @@ public class ArticleDao {
                         Constants.COL_ID,
                         Constants.COL_NAME,
                         Constants.COL_URI,
-//                        Constants.COL_DESC
+                        Constants.COL_DESC
                 },
                 null, null, null, null, Constants.COL_ID);
 
@@ -124,7 +125,8 @@ public class ArticleDao {
                 article = new Article();
                 article.setId(c.getInt(0));
                 article.setName(c.getString(1));
-                article.setDescription(c.getString(2));
+                article.setUri(c.getString(2));
+                article.setDescription(c.getString(3));
 
                 articles.add(article);
             }
