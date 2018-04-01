@@ -99,11 +99,13 @@ public class ArticleDao {
 
     public Articles getAllArticles()
     {
-
+//fred penser a adapter
         Cursor c = bdd.query(Constants.TABLE_ARTICLES, new String[]{
                         Constants.COL_ID,
-                        Constants.COL_NAME,
-                        Constants.COL_DESC},
+//                        Constants.COL_NAME,
+                        Constants.COL_URI,
+//                        Constants.COL_DESC
+                },
                 null, null, null, null, Constants.COL_NAME);
 
         Articles articles = null;
