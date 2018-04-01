@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -227,6 +228,20 @@ public class DbInspectorFragment extends Fragment {
         }
     }
 
+    private void startPhotos()
+    {
+        PackageManager pm = context.getPackageManager();
+        Intent intent = pm.getLaunchIntentForPackage("com.google.android.apps.photos");
+        startActivity(intent);
+    }
+
+    private void startGallery(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivity(intent);
+    }
+
     class CustomAdapter extends RecyclerView.Adapter {
 
         private Articles liste;
@@ -239,6 +254,14 @@ public class DbInspectorFragment extends Fragment {
             // evenement bouton : lancer com.google.android.apps.photos
 
             Button btnPhotos = holder.findViewById(R.id.btnIntentPhotos);
+            Button button3 = holder.findViewById(R.id.button3);
+            button3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    startPhotos();
+                }
+            });
 
             btnPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
