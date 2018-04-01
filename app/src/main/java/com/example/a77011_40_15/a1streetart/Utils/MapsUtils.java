@@ -89,7 +89,7 @@ public abstract class MapsUtils implements LocationListener{
             }
         }
         else{
-            Log.i("NOGPS", "No geolocalization could be performed");
+            Log.w(Constantes.MYLOGTAG, "No geolocalization could be performed");
         }
 
         return position;
