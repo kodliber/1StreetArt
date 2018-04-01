@@ -265,9 +265,9 @@ public class HomeActivity extends AppCompatActivity
 //            Date d = new Date();
 
 //        photo.setDate(new Date().getTime());
-        photo.setDescription("essai");
-        photo.setUri(uri.toString());
         photo.setName("nom");
+        photo.setUri(uri.toString());
+        photo.setDescription("description");
 // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
 //        photo.setRes(0);
 

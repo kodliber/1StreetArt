@@ -95,11 +95,13 @@ public class DbInspectorFragment extends Fragment {
         // preparer le viewholder personnalise : inflater son layout et lier les objets
         //TODO fred  ne pas oublier les donnees qui manquent
         class customViewHolder extends RecyclerView.ViewHolder {
-            public TextView photouri, photoid;
+            public TextView photouri, photoid, photodesc, photoname;
 
             public customViewHolder(View view)
             {
                 super(view);
+                photoname = view.findViewById(R.id.dbname);
+                photodesc = view.findViewById(R.id.dbdesc);
                 photoid = view.findViewById(R.id.dbid);
                 photouri = view.findViewById(R.id.dburi);
             }
@@ -120,7 +122,9 @@ public class DbInspectorFragment extends Fragment {
             public void onBindViewHolder(ViewHolder holder, int position)
             {
                 Article unePhoto = lesPhotos.get(position);
-                ((customViewHolder)holder).photoid.setText(unePhoto.getId());
+                ((customViewHolder)holder).photodesc.setText(unePhoto.getDescription());
+                ((customViewHolder)holder).photoname.setText(unePhoto.getName());
+                ((customViewHolder)holder).photoid.setText(unePhoto.getName());
                 ((customViewHolder)holder).photouri.setText(unePhoto.getUri());
             }
 
@@ -133,6 +137,9 @@ public class DbInspectorFragment extends Fragment {
 
         // preparer le recyclerview et lui fournir l'adaptateur
         theRecyclerView = dbinspectorView.findViewById(R.id.recyclerviewinspector);
+
+//        articleAdapter = new ArticleAdapter(context, lesPhotos);
+
         theRecyclerView.setAdapter(adapter);
 
         return dbinspectorView;
