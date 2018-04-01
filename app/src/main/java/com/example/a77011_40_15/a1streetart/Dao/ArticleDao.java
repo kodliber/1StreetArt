@@ -44,8 +44,11 @@ public class ArticleDao {
         content.put(Constants.COL_URI, article.getUri());
         content.put(Constants.COL_DESC, article.getDescription());
         content.put(Constants.COL_NAME, article.getName());
+        content.put(Constants.COL_LATITUDE, article.getLatitude());
+        content.put(Constants.COL_LONGITUDE, article.getLongitude());
+        content.put(Constants.COL_DATE, article.getDate());
         i = bdd.insert(Constants.TABLE_ARTICLES, null, content);
-        Log.i(Constantes.MYLOGTAG, "i " + i );
+        Log.i(Constantes.MYLOGTAG, "i " + i);
         return i;
     }
 
@@ -111,7 +114,10 @@ public class ArticleDao {
                         Constants.COL_ID,
                         Constants.COL_NAME,
                         Constants.COL_URI,
-                        Constants.COL_DESC
+                        Constants.COL_DESC,
+                        Constants.COL_DATE,
+                        Constants.COL_LATITUDE,
+                        Constants.COL_LONGITUDE,
                 },
                 null, null, null, null, Constants.COL_ID);
 
@@ -127,6 +133,9 @@ public class ArticleDao {
                 article.setName(c.getString(1));
                 article.setUri(c.getString(2));
                 article.setDescription(c.getString(3));
+                article.setDate(c.getString(4));
+                article.setLatitude(c.getDouble(5));
+                article.setLongitude(c.getDouble(6));
 
                 articles.add(article);
             }

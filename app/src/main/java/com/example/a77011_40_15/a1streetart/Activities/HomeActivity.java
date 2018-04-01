@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.DbInspectorFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.example.a77011_40_15.a1streetart.Utils.MapsUtils;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -259,13 +261,14 @@ public class HomeActivity extends AppCompatActivity
             Possible si l'application change de signature
             Prevoir une verification de la validite de l'acces a l'API
             */
-        MapsUtils.LocalizeMe(context); // geolocalisation
-        // enregistrer dans la base de donnees
+        LatLng l = MapsUtils.LocalizeMe(context);// geolocalisation
+// enregistrer dans la base de donnees
         Article photo = new Article();
 //            Date d = new Date();
-
-//        photo.setDate(new Date().getTime());
-        photo.setName("nom");
+        photo.setLatitude(l.latitude); Log.i(Constantes.MYLOGTAG, String.valueOf(l.latitude));
+        photo.setLongitude(l.longitude);Log.i(Constantes.MYLOGTAG, String.valueOf(l.longitude));
+        photo.setDate(new Date().toString());
+        photo.setName("nom temporaire");
         photo.setUri(uri.toString());
         photo.setDescription("description");
 // pas besoin de la ressource graphique qui n'est la que pour la version temporaire

@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -23,8 +22,6 @@ import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.R;
-
-import java.util.ArrayList;
 
 /**
  * Fragment d'inspection de la base de donnees SQLite.
@@ -216,7 +213,7 @@ public class DbInspectorFragment extends Fragment {
 
     //TODO fred  ne pas oublier les donnees qui manquent
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        public TextView photouri, photoid, photodesc, photoname;
+        public TextView photouri, photoid, photodesc, photoname, photolatitude, photolongitude, photodate;
 
         public CustomViewHolder(View view)
         {
@@ -225,17 +222,20 @@ public class DbInspectorFragment extends Fragment {
             photodesc = view.findViewById(R.id.dbdesc);
             photoid = view.findViewById(R.id.dbid);
             photouri = view.findViewById(R.id.dburi);
+            photolatitude = view.findViewById(R.id.dblatitude);
+            photolongitude = view.findViewById(R.id.dblongitude);
+            photodate = view.findViewById(R.id.dbdate);
         }
     }
 
-    private void startPhotos()
+    private void startGooglePhotos()
     {
         PackageManager pm = context.getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage("com.google.android.apps.photos");
         startActivity(intent);
     }
 
-    private void startGallery(View view)
+    private void startImagePicker(View view)
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -259,7 +259,7 @@ public class DbInspectorFragment extends Fragment {
                 @Override
                 public void onClick(View view)
                 {
-                    startPhotos();
+                    startImagePicker(view);
                 }
             });
 
@@ -267,9 +267,7 @@ public class DbInspectorFragment extends Fragment {
                 @Override
                 public void onClick(View view)
                 {
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType("image/*");
-                    startActivity(intent);
+                    startGooglePhotos();
                 }
             });
 
@@ -282,11 +280,12 @@ public class DbInspectorFragment extends Fragment {
         {
             Article unePhoto = liste.get(position);
             String title = unePhoto.getId() + unePhoto.getName();
-            ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
             ((CustomViewHolder) holder).photoname.setText(title);
-//            ((CustomViewHolder)holder).photoname.setText(unePhoto.getName());
-//            ((CustomViewHolder)holder).photoid.setText(String.valueOf(unePhoto.getId()));
+            ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
+            ((CustomViewHolder)holder).photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
+            ((CustomViewHolder)holder).photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
             ((CustomViewHolder) holder).photouri.setText(unePhoto.getUri());
+            ((CustomViewHolder) holder).photodate.setText(unePhoto.getDate());
         }
 
         @Override

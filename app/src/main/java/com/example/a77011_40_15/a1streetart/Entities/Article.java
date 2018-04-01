@@ -14,8 +14,36 @@ public class Article {
     private int id;
     private int res; // ressource graphique dans les drawable
     private String description;
-    private long date; // date du cliché, pour comparer dans le temps si une oeuvre a plusieurs clichés ?
+
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
+
+    private String date; // date du cliché, pour comparer dans le temps si une oeuvre a plusieurs clichés ?
     private String  uri;
+    private double latitude;
+    private double longitude;
+
+    public double getLatitude()
+    {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude)
+    {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude()
+    {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude)
+    {
+        this.longitude = longitude;
+    }
 
     public String getUri()
     {
@@ -35,14 +63,6 @@ public class Article {
     public void setDescription(String description)
     {
         this.description = description;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
     }
 
     public String getName() {
@@ -67,5 +87,10 @@ public class Article {
 
     public void setRes(int res) {
         this.res = res;
+    }
+
+    public String getDate()
+    {
+        return date;
     }
 }

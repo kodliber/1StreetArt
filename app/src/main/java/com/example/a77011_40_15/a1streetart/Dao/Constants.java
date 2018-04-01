@@ -25,7 +25,11 @@ public class Constants {
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             COL_NAME + " TEXT NOT NULL, " +
             COL_URI + " TEXT NOT NULL, " +
-            COL_DESC + " TEXT NOT NULL)";
+            COL_DESC + " TEXT NOT NULL," +
+            COL_LATITUDE + " REAL NOT NULL," +
+            COL_LONGITUDE + " REAL NOT NULL," +
+            COL_DATE + " TEXT NOT NULL" +
+            ")";
 /*
   COL_URI + " TEXT NOT NULL, " +
             COL_LATITUDE + " REAL NOT NULL, " +

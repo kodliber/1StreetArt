@@ -81,6 +81,10 @@ public abstract class MapsUtils implements LocationListener{
                     position = new LatLng(latitude, longitude);
                     Toast.makeText(context, position.toString(),Toast.LENGTH_LONG).show();
                 }
+                else
+                {
+                    position = new LatLng(48.859489, 2.320582); //Paris par defaut
+                }
 
             }
         }
