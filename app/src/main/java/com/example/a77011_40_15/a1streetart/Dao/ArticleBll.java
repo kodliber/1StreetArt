@@ -13,7 +13,7 @@ public class ArticleBll {
     {
         long id = 0;
 
-        if (article != null && context != null && !article.getName().isEmpty()) {
+        if (article != null && context != null && !article.getUri().isEmpty()) {
             ArticleDao articleDao = new ArticleDao(context);
             articleDao.openForWrite();
             id = articleDao.insertArticle(article);

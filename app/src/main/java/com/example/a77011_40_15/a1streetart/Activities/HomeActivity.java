@@ -259,16 +259,17 @@ public class HomeActivity extends AppCompatActivity
             Possible si l'application change de signature
             Prevoir une verification de la validite de l'acces a l'API
             */
-        MapsUtils.LocalizeMe(context);
+        MapsUtils.LocalizeMe(context); // geolocalisation
         // enregistrer dans la base de donnees
         Article photo = new Article();
 //            Date d = new Date();
 
-        photo.setDate(new Date().getTime());
+//        photo.setDate(new Date().getTime());
         photo.setDescription("essai");
-        photo.setName(uri.toString());
-        photo.setRes(0); // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
         photo.setUri(uri.toString());
+        photo.setName("nom");
+// pas besoin de la ressource graphique qui n'est la que pour la version temporaire
+//        photo.setRes(0);
 
         b = new ArticleBll();
         b.insertArticle(photo, context);

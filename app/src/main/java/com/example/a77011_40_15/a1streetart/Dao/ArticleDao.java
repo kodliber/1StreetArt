@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 
 public class ArticleDao {
     SQLiteDatabase bdd;
@@ -36,10 +38,14 @@ public class ArticleDao {
 
     public long insertArticle(Article article)
     {
+        long i;
         ContentValues content = new ContentValues();
-        content.put(Constants.COL_NAME, article.getName());
+        content.put(Constants.COL_URI, article.getUri());
         content.put(Constants.COL_DESC, article.getDescription());
-        return bdd.insert(Constants.TABLE_ARTICLES, null, content);
+        content.put(Constants.COL_NAME, article.getName());
+        i = bdd.insert(Constants.TABLE_ARTICLES, null, content);
+        Log.i(Constantes.MYLOGTAG, "i " + i );
+        return i;
     }
 
     public long updateArticle(Article article)
@@ -102,11 +108,11 @@ public class ArticleDao {
 //fred penser a adapter
         Cursor c = bdd.query(Constants.TABLE_ARTICLES, new String[]{
                         Constants.COL_ID,
-//                        Constants.COL_NAME,
+                        Constants.COL_NAME,
                         Constants.COL_URI,
 //                        Constants.COL_DESC
                 },
-                null, null, null, null, Constants.COL_NAME);
+                null, null, null, null, Constants.COL_ID);
 
         Articles articles = null;
 
