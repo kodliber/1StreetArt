@@ -22,7 +22,7 @@
         <fragment
             android:layout_weight="1"
             android:id="@+id/carrousselFragment"
-            android:name="com.example.a77011_40_15.a1streetart.Fragments.CarrousselFragment"
+            android:name="com.example.a77011_40_15.a1streetart.Fragments.CarouselFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

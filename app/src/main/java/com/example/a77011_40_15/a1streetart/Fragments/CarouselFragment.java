@@ -33,12 +33,12 @@ import java.util.ArrayList;
  * NOTE : ce fragment doit rester en V4 si l'on veut l'afficher dans le viewpager. Utilliser les versions "support" du FragmentManager si besoin.
  * <p>
  * Activities that contain this fragment must implement the
- * {@link CarrousselFragment.OnFragmentInteractionListener} interface
+ * {@link CarouselFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CarrousselFragment#newInstance} factory method to
+ * Use the {@link CarouselFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarrousselFragment extends android.support.v4.app.Fragment {
+public class CarouselFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
     ViewPager viewPager;
@@ -54,16 +54,16 @@ public class CarrousselFragment extends android.support.v4.app.Fragment {
     private int NUM_ITEMS = 4;
     private Activity activity;
 
-    public CarrousselFragment()
+    public CarouselFragment()
     {
         // Required empty public constructor
     }
 
 
     // TODO: Rename and change types and number of parameters
-    public static CarrousselFragment newInstance()
+    public static CarouselFragment newInstance()
     {
-        CarrousselFragment fragment = new CarrousselFragment();
+        CarouselFragment fragment = new CarouselFragment();
         return fragment;
     }
 
@@ -79,7 +79,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment {
     {
         super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_carroussel, container, false);
+        View view = inflater.inflate(R.layout.fragment_carousel, container, false);
         //TODO fred generation de fragments de test. A remplacer par un telechargement d'images depuis un serveur
         // generation de fragments en fonction du nombre d'images
 
@@ -137,7 +137,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment {
             return fragmentCollection.size();
         }
 
-
+        // TODO fred : le page title n'est pas actif, chercher pourquoi
         @Override
         public CharSequence getPageTitle(int position)
         {

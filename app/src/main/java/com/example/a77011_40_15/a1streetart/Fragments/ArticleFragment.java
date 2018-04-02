@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -118,11 +119,11 @@ public class ArticleFragment extends Fragment {
                 if (mListener != null)
                     mListener.showOnMap(emplacement, markerName);
                 else
-                    Log.e("EXCEPTION mListener", "check the mListener");
+                    Log.e(Constantes.MYLOGTAG, "check the mListener");
             }
         });
 
-        TextView t = view.findViewById(R.id.carrousselImageTexte);
+        TextView t = view.findViewById(R.id.carouselImageTexte);
         t.setText(mParam2);
 
         return view;
