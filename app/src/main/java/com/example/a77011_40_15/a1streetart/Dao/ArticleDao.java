@@ -14,6 +14,11 @@ public class ArticleDao {
     SQLiteDatabase bdd;
     ArticleSqlite articleSqlite;
 
+    /**
+     * Penser a adapter les fonctions d'insert, update a chaque changeement sur le modele !
+     * @param context
+     */
+
 //    public ArticleDao (SQLiteDatabase bdd) {this.bdd = bdd}
 
     public ArticleDao(Context context)

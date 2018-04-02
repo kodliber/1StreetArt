@@ -110,7 +110,7 @@ public class ArticleFragment extends Fragment {
             imageView.setImageURI(Uri.parse(mParam1));
         }
 
-        // un clic sur l'imageView declenche un deplacement de la GoogleMap
+        // un clic sur l'imageView declenche un deplacement de la GoogleMap en transmettant les coordonnees
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
