@@ -105,9 +105,9 @@ public class HomeActivity extends AppCompatActivity
 //        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
 /*
         android.support.v4.app.FragmentManager supportFragmentManager = getSupportFragmentManager();
-        CarouselFragment carroussel;
-        carroussel = (CarouselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
-        android.support.v4.app.Fragment testf = carousel.fragmentCollection.get(1);
+        CarrousselFragment carroussel;
+        carroussel = (CarrousselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
+        android.support.v4.app.Fragment testf = carroussel.fragmentCollection.get(1);
 */
 
         //fred quand on clique sur la carte, on passe à l'activité du parcours
