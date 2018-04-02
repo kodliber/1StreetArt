@@ -279,11 +279,11 @@ public class DbInspectorFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position)
         {
             Article unePhoto = liste.get(position);
-            String title = unePhoto.getId() + unePhoto.getName();
-            ((CustomViewHolder) holder).photoname.setText(title);
+            String comboIdName = unePhoto.getId() + " " + unePhoto.getName();
+            ((CustomViewHolder) holder).photoname.setText(comboIdName);
             ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
-            ((CustomViewHolder)holder).photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
-            ((CustomViewHolder)holder).photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
+            ((CustomViewHolder) holder).photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
+            ((CustomViewHolder) holder).photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
             ((CustomViewHolder) holder).photouri.setText(unePhoto.getUri());
             ((CustomViewHolder) holder).photodate.setText(unePhoto.getDate());
         }

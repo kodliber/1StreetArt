@@ -30,7 +30,7 @@ public abstract class MapsUtils implements LocationListener{
     /**
      * Cette méthode interroge le GPS pour obtenir la localisation actuelle et l'utiliser pour localiser la photo.
      * Pas besoin d'une carte.
-     * Fred: gerer l'absence de connexion GPS
+     * TODO Fred: penser a gerer l'absence de connexion GPS
      *
      * @param context
      */
