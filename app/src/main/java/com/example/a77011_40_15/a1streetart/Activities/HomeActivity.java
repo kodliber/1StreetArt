@@ -105,8 +105,8 @@ public class HomeActivity extends AppCompatActivity
 //        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
 /*
         android.support.v4.app.FragmentManager supportFragmentManager = getSupportFragmentManager();
-        CarrousselFragment carroussel;
-        carroussel = (CarrousselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
+        CarouselFragment carroussel;
+        carroussel = (CarouselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
         android.support.v4.app.Fragment testf = carroussel.fragmentCollection.get(1);
 */
 
