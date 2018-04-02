@@ -3,6 +3,7 @@ package com.example.a77011_40_15.a1streetart.Fragments;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -41,13 +42,8 @@ public class ArticleFragment extends Fragment {
     private double mParam3;
     private double mParam4;
 
-    private OnFragmentInteractionListener mListener;/* = new OnFragmentInteractionListener() {
-        @Override
-        public void showOnMap(LatLng toto)
-        {
+    private OnFragmentInteractionListener mListener;
 
-        }
-    };*/
     Context context;
 
     public ArticleFragment()
@@ -100,9 +96,13 @@ public class ArticleFragment extends Fragment {
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         int idRessource = getDrawableResIdByName(mParam1);
-        //TODO prevoir une ressource par defaut
+        //TODO fred prevoir une ressource par defaut. ici la ressource est trouvee par son Id
         if (idRessource != 0) {
             imageView.setImageResource(idRessource);
+        }
+        else if (mParam1 != null)
+        {
+            imageView.setImageURI(Uri.parse(mParam1));
         }
 
         // un clic sur l'imageView declenche un deplacement de la GoogleMap

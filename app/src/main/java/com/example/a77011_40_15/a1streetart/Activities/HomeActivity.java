@@ -107,7 +107,7 @@ public class HomeActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager supportFragmentManager = getSupportFragmentManager();
         CarrousselFragment carroussel;
         carroussel = (CarrousselFragment) supportFragmentManager.findFragmentByTag("carrousselFragment");
-        android.support.v4.app.Fragment testf = carroussel.fl.get(1);
+        android.support.v4.app.Fragment testf = carroussel.fragmentCollection.get(1);
 */
 
         //fred quand on clique sur la carte, on passe à l'activité du parcours

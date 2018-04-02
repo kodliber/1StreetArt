@@ -15,10 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
+import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -37,8 +38,7 @@ import java.util.ArrayList;
  * Use the {@link CarrousselFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarrousselFragment extends android.support.v4.app.Fragment
-{
+public class CarrousselFragment extends android.support.v4.app.Fragment {
     private OnFragmentInteractionListener mListener;
 
     ViewPager viewPager;
@@ -48,7 +48,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
     ArticleFragment second;
     ArticleFragment third;
     ArticleFragment fourth;
-    public ArrayList<Fragment> fl = new ArrayList<>();
+    public ArrayList<Fragment> fragmentCollection = new ArrayList<>();
 
     Context context;
     private int NUM_ITEMS = 4;
@@ -79,38 +79,47 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
     {
         super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_carroussel, container, false);
+        View view = inflater.inflate(R.layout.fragment_carroussel, container, false);
+        //TODO fred generation de fragments de test. A remplacer par un telechargement d'images depuis un serveur
+        // generation de fragments en fonction du nombre d'images
 
-        //TODO generation de fragments de test. A remplacer par un telechargement d'images depuis un serveur
-
+/*
         String[] imageNames = {"image1", "image2", "image3", "image4"};
         String[] imageDesc = {"fleurs1\najouté par Bob", "Tigre\npar Julie", "Le tiequar\npar SuperMax", "Soleil\npar Andrea"};
         Double[] imageLatitude = {48.83673193, 48.84283295, 48.84644802, 48.83808778};
         Double[] imageLongitude = {2.35153525, 2.3642382, 2.37968772, 2.39170402 };
 
-//        first =  new ArticleFragment();
-//        second = new ArticleFragment();
-//        third = new ArticleFragment();
-//        fourth = new ArticleFragment();
 
-        // generation de fragments en fonction du nombre d'images
         if (imageNames.length > 0)
         {
             for (int i = 0; i < imageNames.length; i++)
             {
                 ArticleFragment t = ArticleFragment.newInstance(imageNames[i], imageDesc[i], imageLatitude[i], imageLongitude[i] );
-                fl.add(t);
+                fragmentCollection.add(t);
             }
+//        }*/
+
+        ArticleBll sqliteWorker = new ArticleBll();
+        Articles pics = sqliteWorker.getAllArticles(context);
+        for (Article article : pics) {
+            ArticleFragment t;
+            t = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude());
+            fragmentCollection.add(t);
         }
-        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+/*        for (int i = 0; i<=pics.size(); i++)
+        {
+            ArticleFragment t = ArticleFragment.newInstance(pics.get(i).getName(),pics.get(i).getDescription(), pics.get(i).getLatitude(), pics.get(i).getLongitude());
+            fragmentCollection.add(t);
+        }*/
+
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         myPageAdapter = new MyPageAdapter(getChildFragmentManager());
         viewPager.setAdapter(myPageAdapter);
 
-        return v;
+        return view;
     }
 
-    private class MyPageAdapter extends FragmentPagerAdapter
-    {
+    private class MyPageAdapter extends FragmentPagerAdapter {
         public MyPageAdapter(FragmentManager fm)
         {
             super(fm);
@@ -119,24 +128,13 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
         @Override
         public Fragment getItem(int position)
         {
-//            switch (position) {
-//                case 0:
-//                    return first;
-//                case 1:
-//                    return second;
-//                case 2:
-//                    return third;
-//                case 3:
-//                    return fourth;
-//            }
-//            return null;
-            return fl.get(position);
+            return fragmentCollection.get(position);
         }
 
         @Override
         public int getCount()
         {
-            return NUM_ITEMS;
+            return fragmentCollection.size();
         }
 
 
@@ -144,8 +142,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
         public CharSequence getPageTitle(int position)
         {
             String title = "test de titre";
-            switch (position)
-            {
+            switch (position) {
 
                 case 0:
                     title = "1";
@@ -171,13 +168,12 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri)
     {
-        if (mListener != null)
-        {
+        if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
 
-        //ceci fait planter
+    //ceci fait planter
 /*        @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -205,8 +201,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
         this.activity = activity;
         super.onAttach(activity);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             this.context = activity.getBaseContext();
         }
     }
@@ -228,8 +223,7 @@ public class CarrousselFragment extends android.support.v4.app.Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener
-    {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
