@@ -17,12 +17,9 @@ public class ArticleBll {
             ArticleDao articleDao = new ArticleDao(context);
             articleDao.openForWrite();
             id = articleDao.insertArticle(article);
-            if (id == -1)
-            {
-                Log.i(Constantes.MYLOGTAG, "id is " + id);
-            }
-            else
-            {
+            if (id == -1) {
+                Log.i(Constantes.MYLOGTAG, "Error while inserting? id is " + id);
+            } else {
                 Log.i(Constantes.MYLOGTAG, "Photo is stored");
             }
             article.setId((int) id);
@@ -33,11 +30,12 @@ public class ArticleBll {
 
     public void deleteArticle(int id, Context context)
     {
-
+        int result;
         if (id > 0 && context != null) {
             ArticleDao articleDao = new ArticleDao(context);
             articleDao.openForWrite();
-            articleDao.deleteArticle(id);
+            result = articleDao.deleteArticle(id);
+            Log.i(Constantes.MYLOGTAG, "Suppression de " + id + "avec resultat de " + result);
             articleDao.close();
         }
     }
@@ -60,7 +58,7 @@ public class ArticleBll {
         articleDao.openForRead();
         Articles tout = articleDao.getAllArticles();
         articleDao.close();
-        Log.i(Constantes.MYLOGTAG, "getAllArticles renvoit " + tout.size() + " articles");
+        Log.i(Constantes.MYLOGTAG, "getAllArticles renvoie " + tout.size() + " articles");
 
         return tout;
     }

@@ -124,10 +124,10 @@ public class ArticleDao {
         Articles articles = null;
 
         if (c.getCount() > 0) {
-//            c.moveToFirst();
+            c.moveToFirst();
             articles = new Articles();
             Article article;
-            while (c.moveToNext()) {
+             do {
                 article = new Article();
                 article.setId(c.getInt(0));
                 article.setName(c.getString(1));
@@ -138,7 +138,7 @@ public class ArticleDao {
                 article.setLongitude(c.getDouble(6));
 
                 articles.add(article);
-            }
+            }while (c.moveToNext());
         }
         close();
 

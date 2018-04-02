@@ -35,6 +35,7 @@ public class ArticleFragment extends Fragment {
     private static final String ARG_NOM = "param2";
     private static final String ARG_LATITUDE = "param3";
     private static final String ARG_LONGITUDE = "param4";
+    private static final String ARG_ID = "param5";
     //fred: ajouter et gerer la date
 
     // TODO: Rename and change types of parameters
@@ -42,6 +43,7 @@ public class ArticleFragment extends Fragment {
     private String mParam2;
     private double mParam3;
     private double mParam4;
+    private int mParam5;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,7 +62,7 @@ public class ArticleFragment extends Fragment {
      * @return Une nouvelle instance de ArticleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ArticleFragment newInstance(String ressource, String description, double latitude, double longitude)
+    public static ArticleFragment newInstance(String ressource, String description, double latitude, double longitude, int id)
     {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
@@ -68,6 +70,7 @@ public class ArticleFragment extends Fragment {
         args.putString(ARG_NOM, description);
         args.putDouble(ARG_LATITUDE, latitude);
         args.putDouble(ARG_LONGITUDE, longitude);
+        args.putInt(ARG_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +84,7 @@ public class ArticleFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_NOM);
             mParam3 = getArguments().getDouble(ARG_LATITUDE);
             mParam4 = getArguments().getDouble(ARG_LONGITUDE);
+            mParam5 = getArguments().getInt(ARG_ID);
         }
     }
 
@@ -114,7 +118,7 @@ public class ArticleFragment extends Fragment {
                 mParam3 = getArguments().getDouble(ARG_LATITUDE);
                 mParam4 = getArguments().getDouble(ARG_LONGITUDE);
                 LatLng emplacement = new LatLng(mParam3, mParam4);
-                String markerName = mParam1;
+                String markerName = String.valueOf(mParam5);
 
                 if (mListener != null)
                     mListener.showOnMap(emplacement, markerName);
@@ -125,6 +129,9 @@ public class ArticleFragment extends Fragment {
 
         TextView t = view.findViewById(R.id.carouselImageTexte);
         t.setText(mParam2);
+
+        TextView tid = view.findViewById(R.id.carouselImageId);
+        tid.setText(String.valueOf(mParam5));
 
         return view;
     }

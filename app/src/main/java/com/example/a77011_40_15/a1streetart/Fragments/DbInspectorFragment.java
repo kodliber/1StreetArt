@@ -12,16 +12,21 @@ import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
+
+import java.util.Iterator;
 
 /**
  * Fragment d'inspection de la base de donnees SQLite.
@@ -50,6 +55,8 @@ public class DbInspectorFragment extends Fragment {
     private Context context;
     private Activity activity = null;
     private Articles lesPhotos = null;
+    CustomAdapter myAdapter;
+
 
     public DbInspectorFragment()
     {
@@ -90,66 +97,13 @@ public class DbInspectorFragment extends Fragment {
                              Bundle savedInstanceState)
     {
         View dbinspectorView = inflater.inflate(R.layout.fragment_db_inspector, container, false);
-        // preparer la listview
-
-//        ArticleBll bll = new ArticleBll();// lire les donnees depuis la BDD SQLite
-//        lesPhotos = bll.getAllArticles(context); // le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
-
-        // preparer l'adaptateur qui va utiliser les donnees
-
-        // preparer le viewholder personnalise : inflater son layout et lier les objets
-        //TODO fred  ne pas oublier les donnees qui manquent
-/*        class customViewHolder extends RecyclerView.ViewHolder {
-            public TextView photouri, photoid, photodesc, photoname;
-
-            public customViewHolder(View view)
-            {
-                super(view);
-                photoname = view.findViewById(R.id.dbname);
-                photodesc = view.findViewById(R.id.dbdesc);
-                photoid = view.findViewById(R.id.dbid);
-                photouri = view.findViewById(R.id.dburi);
-            }
-        }*/
-
-        // preparer l'adaptater qui utilise les holders personnalises
-/*
-        RecyclerView.Adapter adapter = new RecyclerView.Adapter() {
-            // charger le layout du holder
-            @Override
-            public customViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-            {
-                View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_dbinspector, parent, false);
-                return new customViewHolder(holder);
-            }
-
-            // cette methode va peupler les donnees du holder avec celles du tableau de photos
-            @Override
-            public void onBindViewHolder(ViewHolder holder, int position)
-            {
-                Article unePhoto = lesPhotos.get(position);
-                ((customViewHolder)holder).photodesc.setText(unePhoto.getDescription());
-                ((customViewHolder)holder).photoname.setText(unePhoto.getName());
-                ((customViewHolder)holder).photoid.setText(unePhoto.getName());
-                ((customViewHolder)holder).photouri.setText(unePhoto.getUri());
-            }
-
-            @Override
-            public int getItemCount()
-            {
-                return lesPhotos.size();
-            }
-        };
-*/
 
         // preparer le recyclerview et lui fournir l'adaptateur
         theRecyclerView = dbinspectorView.findViewById(R.id.recyclerviewinspector);
-
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         theRecyclerView.setLayoutManager(mLayoutManager);
-
-        CustomAdapter customAdapter = new CustomAdapter(lesPhotos, context);
-        theRecyclerView.setAdapter(customAdapter);
+        myAdapter = new CustomAdapter(lesPhotos, context);
+        theRecyclerView.setAdapter(myAdapter);
 
         return dbinspectorView;
     }
@@ -228,14 +182,14 @@ public class DbInspectorFragment extends Fragment {
         }
     }
 
-    private void startGooglePhotos()
+    private void PhotoStartGooglePhotos()
     {
         PackageManager pm = context.getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage("com.google.android.apps.photos");
         startActivity(intent);
     }
 
-    private void startImagePicker(View view)
+    private void PhotoStartPicker(View view)
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -252,22 +206,48 @@ public class DbInspectorFragment extends Fragment {
         {
             View holder = LayoutInflater.from(context).inflate(R.layout.viewholder_dbinspector, parent, false);
             // evenement bouton : lancer com.google.android.apps.photos
+            Log.i(Constantes.MYLOGTAG, "creation de viewholder");
 
-            Button btnPhotos = holder.findViewById(R.id.btnIntentPhotos);
-            Button button3 = holder.findViewById(R.id.button3);
-            button3.setOnClickListener(new View.OnClickListener() {
+            Button btnPick = holder.findViewById(R.id.btnIntentPick);
+            btnPick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
                 {
-                    startImagePicker(view);
+                    PhotoStartPicker(view);
                 }
             });
 
+            Button btnPhotos = holder.findViewById(R.id.btnIntentPhotos);
             btnPhotos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
                 {
-                    startGooglePhotos();
+                    PhotoStartGooglePhotos();
+                }
+            });
+
+            Button btnSuppress = holder.findViewById(R.id.btnSuppress);
+            btnSuppress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    int thePicId;
+                    TextView t = holder.findViewById(R.id.dbid);
+
+                    thePicId = Integer.valueOf(t.getText().toString());
+                    PhotoSuppressFromDb(thePicId, context);
+
+                    // mettre a jour la liste avec un iterator
+                    Iterator<Article> iter = liste.iterator();
+                    while (iter.hasNext()) {
+                        if (iter.next().getId() == thePicId) {
+                            iter.remove();
+//                            Log.i(Constantes.MYLOGTAG, "thePic id =" + thePicId + " was removed");
+                        }
+                    }
+
+                    myAdapter.notifyItemRemoved(thePicId); // ne provoque pas un rafraichissement du recyclerView coherent
+                    myAdapter.notifyDataSetChanged();
                 }
             });
 
@@ -286,6 +266,8 @@ public class DbInspectorFragment extends Fragment {
             ((CustomViewHolder) holder).photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
             ((CustomViewHolder) holder).photouri.setText(unePhoto.getUri());
             ((CustomViewHolder) holder).photodate.setText(unePhoto.getDate());
+            ((CustomViewHolder) holder).photoid.setText(String.valueOf(unePhoto.getId()));
+
         }
 
         @Override
@@ -301,6 +283,17 @@ public class DbInspectorFragment extends Fragment {
             liste = bll.getAllArticles(context);// le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
         }
 
+        /**
+         * Suppression des donnees de l'image dans la BDD SQLite (pas du fichier physique !!)
+         */
+        private void PhotoSuppressFromDb(int picId, Context context)
+        {
+            Toast.makeText(context, "id = " + picId, Toast.LENGTH_SHORT).show();
+            ArticleBll bll = new ArticleBll();
+            bll.deleteArticle(picId, context);
+//            myAdapter.notifyItemRemoved(picId);
+
+        }
     }
 
 }

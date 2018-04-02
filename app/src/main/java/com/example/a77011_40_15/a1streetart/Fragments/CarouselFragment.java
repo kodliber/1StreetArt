@@ -103,7 +103,7 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
         Articles pics = sqliteWorker.getAllArticles(context);
         for (Article article : pics) {
             ArticleFragment t;
-            t = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude());
+            t = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
             fragmentCollection.add(t);
         }
 /*        for (int i = 0; i<=pics.size(); i++)

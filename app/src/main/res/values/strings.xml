@@ -28,7 +28,9 @@
     <string name="navmaptitle">Afficher la carte</string>
     <string name="inspectortitlelist">photos disponibles pour l\'application</string>
     <string name="switchInclude">Inclure dans la liste</string>
-    <string name="intentPhotos">Ouvrir Google Photos</string>
+    <string name="intentPhotos">G Photos</string>
+    <string name="pick">Choisir</string>
+    <string name="btnPicSuppress">Effacer</string>
 
     Inspection 'Android Resources Validation' options
 </resources>
