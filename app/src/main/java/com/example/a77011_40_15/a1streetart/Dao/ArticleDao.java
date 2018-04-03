@@ -10,17 +10,18 @@ import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 
-public class ArticleDao {
-    SQLiteDatabase bdd;
-    ArticleSqlite articleSqlite;
+public class ArticleDao
+{
+    private SQLiteDatabase bdd;
+    private ArticleSqlite articleSqlite;
 
     /**
      * Penser a adapter les fonctions d'insert, update a chaque changeement sur le modele !
+     *
      * @param context
      */
 
 //    public ArticleDao (SQLiteDatabase bdd) {this.bdd = bdd}
-
     public ArticleDao(Context context)
     {
         articleSqlite = new ArticleSqlite(context, Constants.NOM_BDD, null, Constants.VERSION);
@@ -97,12 +98,13 @@ public class ArticleDao {
         return cursorToArticle(c).getId();
     }
 
-    public Article cursorToArticle(Cursor c)
+    private Article cursorToArticle(Cursor c)
     {
         c.moveToFirst();
         Article article = null;
 
-        if (c.getCount() > 0) {
+        if (c.getCount() > 0)
+        {
             article = new Article();
             article.setId(c.getInt(Constants.NUM_COL_ID));
             article.setName(c.getString(Constants.NUM_COL_NAME));
@@ -128,11 +130,13 @@ public class ArticleDao {
 
         Articles articles = null;
 
-        if (c.getCount() > 0) {
+        if (c.getCount() > 0)
+        {
             c.moveToFirst();
             articles = new Articles();
             Article article;
-             do {
+            do
+            {
                 article = new Article();
                 article.setId(c.getInt(0));
                 article.setName(c.getString(1));
@@ -143,8 +147,9 @@ public class ArticleDao {
                 article.setLongitude(c.getDouble(6));
 
                 articles.add(article);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
+        c.close(); // fermeture du curseur car c'est conseille
         close();
         //fred attention a gerer le retour d'un objet NULL !!
         return articles;

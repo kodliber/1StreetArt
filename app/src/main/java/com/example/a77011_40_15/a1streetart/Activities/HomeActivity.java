@@ -28,6 +28,7 @@ import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Fragments.ArticleFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.DbInspectorFragment;
 import com.example.a77011_40_15.a1streetart.Fragments.GoogleMapsFragment;
+import com.example.a77011_40_15.a1streetart.Fragments.SlideshowFragment;
 import com.example.a77011_40_15.a1streetart.R;
 import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.example.a77011_40_15.a1streetart.Utils.MapsUtils;
@@ -39,7 +40,8 @@ import java.util.Date;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ArticleFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ArticleFragment.OnFragmentInteractionListener, SlideshowFragment.OnFragmentInteractionListener
+{
     Context context;
     FragmentManager fragmentManager = null;
     DbInspectorFragment dbi = null;

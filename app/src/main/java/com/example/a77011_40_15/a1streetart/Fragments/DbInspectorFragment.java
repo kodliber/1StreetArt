@@ -31,6 +31,7 @@ import java.util.Iterator;
 /**
  * Fragment d'inspection de la base de donnees SQLite.
  * Il liste les photos enregistrees dans la BDD SQLite du telephone
+ * <p>Lors des operations de modifcation de la BDD, il faut penser a mettre a jour la collection egalement !!</p>
  * <p>
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -181,7 +182,7 @@ public class DbInspectorFragment extends Fragment {
             photodate = view.findViewById(R.id.dbdate);
         }
     }
-
+    // lancement de Google Photos
     private void PhotoStartGooglePhotos()
     {
         PackageManager pm = context.getPackageManager();
@@ -189,6 +190,7 @@ public class DbInspectorFragment extends Fragment {
         startActivity(intent);
     }
 
+    // lancement du picker de medium
     private void PhotoStartPicker(View view)
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -196,8 +198,7 @@ public class DbInspectorFragment extends Fragment {
         startActivity(intent);
     }
 
-    class CustomAdapter extends RecyclerView.Adapter {
-
+    private class CustomAdapter extends RecyclerView.Adapter {
         private Articles liste;
 
         // charger le layout du holder
@@ -205,7 +206,6 @@ public class DbInspectorFragment extends Fragment {
         public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View holder = LayoutInflater.from(context).inflate(R.layout.viewholder_dbinspector, parent, false);
-            // evenement bouton : lancer com.google.android.apps.photos
             Log.i(Constantes.MYLOGTAG, "creation de viewholder");
 
             Button btnPick = holder.findViewById(R.id.btnIntentPick);
@@ -237,7 +237,7 @@ public class DbInspectorFragment extends Fragment {
                     thePicId = Integer.valueOf(t.getText().toString());
                     PhotoSuppressFromDb(thePicId, context);
 
-                    // mettre a jour la liste avec un iterator
+                    // mettre a jour la collection avec un iterator
                     Iterator<Article> iter = liste.iterator();
                     while (iter.hasNext()) {
                         if (iter.next().getId() == thePicId) {
@@ -291,6 +291,9 @@ public class DbInspectorFragment extends Fragment {
             Toast.makeText(context, "id = " + picId, Toast.LENGTH_SHORT).show();
             ArticleBll bll = new ArticleBll();
             bll.deleteArticle(picId, context);
+            // Mettre a jour la collection !
+//            liste.remove(picId);
+
 //            myAdapter.notifyItemRemoved(picId);
 
         }

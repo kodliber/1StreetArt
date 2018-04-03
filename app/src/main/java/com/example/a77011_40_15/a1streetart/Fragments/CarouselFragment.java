@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
@@ -38,20 +39,15 @@ import java.util.ArrayList;
  * Use the {@link CarouselFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CarouselFragment extends android.support.v4.app.Fragment {
+public class CarouselFragment extends android.support.v4.app.Fragment
+{
     private OnFragmentInteractionListener mListener;
 
     ViewPager viewPager;
     MyPageAdapter myPageAdapter;
-    // les fragments qui vont défiler
-    ArticleFragment first;
-    ArticleFragment second;
-    ArticleFragment third;
-    ArticleFragment fourth;
-    public ArrayList<Fragment> fragmentCollection = new ArrayList<>();
+    private static ArrayList<Fragment> fragmentCollection = new ArrayList<>();
 
     Context context;
-    private int NUM_ITEMS = 4;
     private Activity activity;
 
     public CarouselFragment()
@@ -63,8 +59,7 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
     // TODO: Rename and change types and number of parameters
     public static CarouselFragment newInstance()
     {
-        CarouselFragment fragment = new CarouselFragment();
-        return fragment;
+        return new CarouselFragment();
     }
 
     @Override
@@ -78,31 +73,68 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Toast.makeText(context, "oncreateview", Toast.LENGTH_SHORT).show();
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_carousel, container, false);
 
         //TODO fred generation de fragments de test. A remplacer par un telechargement d'images depuis un serveur
         // generation de fragments en fonction du nombre d'images presents dans la BDD
 
-        ArticleBll sqliteWorker = new ArticleBll();
-        Articles pics = sqliteWorker.getAllArticles(context);
+//        ArticleBll sqliteWorker = new ArticleBll();
+//        Articles pics = sqliteWorker.getAllArticles(context);
+//
+//        if (pics != null)
+//        {
+//            for (Article article : pics)
+//            {
+//                ArticleFragment newFragment;
+//                newFragment = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
+//                fragmentCollection.add(newFragment);
+//            }
+//        }
 
-        if (pics != null) {
-            for (Article article : pics) {
-                ArticleFragment newFragment;
-                newFragment = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
-                fragmentCollection.add(newFragment);
-            }
-        }
-
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager = view.findViewById(R.id.viewpager);
         myPageAdapter = new MyPageAdapter(getChildFragmentManager());
         viewPager.setAdapter(myPageAdapter);
 
         return view;
     }
 
-    private class MyPageAdapter extends FragmentPagerAdapter {
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+//        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+        ArticleBll sqliteWorker = new ArticleBll();
+        Articles pics;
+        pics = sqliteWorker.getAllArticles(context);//lecture depuis la BDD
+
+
+        fragmentCollection.clear();
+
+
+        if (pics != null)
+        {
+            Toast.makeText(context, "onresume", Toast.LENGTH_SHORT).show();
+            for (Article article : pics)
+            {
+                ArticleFragment newFragment;
+                newFragment = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
+                fragmentCollection.add(newFragment);
+            }
+        }
+//        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+//        myPageAdapter = new MyPageAdapter(getChildFragmentManager());
+        myPageAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(myPageAdapter);
+
+
+    }
+
+    private class MyPageAdapter extends FragmentPagerAdapter
+    {
         public MyPageAdapter(FragmentManager fm)
         {
             super(fm);
@@ -125,7 +157,8 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
         public CharSequence getPageTitle(int position)
         {
             String title = "test de titre";
-            switch (position) {
+            switch (position)
+            {
 
                 case 0:
                     title = "1";
@@ -151,7 +184,8 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri)
     {
-        if (mListener != null) {
+        if (mListener != null)
+        {
             mListener.onFragmentInteraction(uri);
         }
     }
@@ -184,7 +218,8 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
         this.activity = activity;
         super.onAttach(activity);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
             this.context = activity.getBaseContext();
         }
     }
@@ -206,7 +241,8 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
