@@ -58,6 +58,7 @@ public class ArticleBll {
         articleDao.openForRead();
         Articles tout = articleDao.getAllArticles();
         articleDao.close();
+        if (tout != null )
         Log.i(Constantes.MYLOGTAG, "getAllArticles renvoie " + tout.size() + " articles");
 
         return tout;

@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fragmentManager = null;
     DbInspectorFragment dbi = null;
     Uri uri;
-    ArticleBll b;
+    ArticleBll sqliteWorker;
 
     GoogleMapsFragment googlemapFrag;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -97,9 +97,9 @@ public class HomeActivity extends AppCompatActivity
         fragmentManager = getFragmentManager();
         googlemapFrag = new GoogleMapsFragment();
         loadFragment(googlemapFrag);
+        //TODO fred quand on clique sur la carte, on passe à l'activité du parcours
 
         // acceder aux fragment d'images
-
 
 //        Fragment carroussel = new ArticleFragment();
 //        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
@@ -110,10 +110,14 @@ public class HomeActivity extends AppCompatActivity
         android.support.v4.app.Fragment testf = carroussel.fragmentCollection.get(1);
 */
 
-        //fred quand on clique sur la carte, on passe à l'activité du parcours
 
     }
 
+    /**
+     * Surcharge dans le cas d'une gestion de 2 framelayout
+     * @param fragment
+     * @param cible
+     */
     public void loadFragment(Fragment fragment, int cible)
     {
         fragmentManager.beginTransaction()
@@ -274,8 +278,8 @@ public class HomeActivity extends AppCompatActivity
 // pas besoin de la ressource graphique qui n'est la que pour la version temporaire
 //        photo.setRes(0);
 
-        b = new ArticleBll();
-        b.insertArticle(photo, context);
+        sqliteWorker = new ArticleBll();
+        sqliteWorker.insertArticle(photo, context);
 
     }
 

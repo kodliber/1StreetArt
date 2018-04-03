@@ -147,6 +147,8 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
 
+        //TODO fred remarque on pourrait utiliser la fonction utilitaire localizeme mais le fragment ne serait pas independant... a etudier
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
 
@@ -164,14 +166,21 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    Toast.makeText(context,"GPS ok" ,Toast.LENGTH_SHORT).show();
+
+
                 } else if (checkNetwork) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    Toast.makeText(context,"Carrier ok" ,Toast.LENGTH_SHORT).show();
+
                 } else {
                     locationManager.requestLocationUpdates(
                             LocationManager.PASSIVE_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
                     location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                    Toast.makeText(context,"Default ok" ,Toast.LENGTH_SHORT).show();
+
                 }
 
                 if (location != null) {
@@ -183,7 +192,7 @@ public class GoogleMapsFragment extends Fragment implements OnMapReadyCallback, 
                 }
                 else {
                     Log.e(Constantes.MYLOGTAG, "Localization failed");
-                    Toast.makeText(context,R.string.warningNoPosition ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,R.string.warningNoPosition ,Toast.LENGTH_SHORT).show();
 //                    Snackbar.make(v, R.string.warningNoPosition,Snackbar.LENGTH_SHORT);
                 }
             }

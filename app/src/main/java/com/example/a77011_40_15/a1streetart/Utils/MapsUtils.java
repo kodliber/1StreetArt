@@ -61,17 +61,23 @@ public abstract class MapsUtils implements LocationListener{
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    Toast.makeText(context, "GPS provider ok",Toast.LENGTH_SHORT).show();
+
                 } else if (checkNetwork)
                 {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER, 0, 0,  locationListener);
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    Toast.makeText(context, "Carrier provider ok",Toast.LENGTH_SHORT).show();
+
                 } else
                     // en l'absence de GPS ou réseau actif, on tente le PASSIVE_PROVIDER
                 {
                     locationManager.requestLocationUpdates(
                             LocationManager.PASSIVE_PROVIDER, 0, 0,  locationListener);
                     location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                    Toast.makeText(context, "Passive provider ok",Toast.LENGTH_SHORT).show();
+
                 }
 
                 if (location != null)
@@ -79,7 +85,7 @@ public abstract class MapsUtils implements LocationListener{
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     position = new LatLng(latitude, longitude);
-                    Toast.makeText(context, position.toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, position.toString(),Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
