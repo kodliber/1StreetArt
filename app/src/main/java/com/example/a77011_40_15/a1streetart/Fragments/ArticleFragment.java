@@ -57,8 +57,11 @@ public class ArticleFragment extends Fragment {
     /**
      * Constructeur qui instancie le fragment en lui passant l'image à afficher avec
      *
-     * @param ressource   nom réel de la ressource graphique dans les drawable.
-     * @param description titre de l'image.
+     * @param ressource   nom réel de la ressource graphique dans les drawable ou URI d'un fichier sur le telephone
+     * @param description description de l'image.
+     * @param latitude    Latitude recuperee lors de la prise de vue ou fournie par la BDD si l'image vient du serveur
+     * @param longitude   Longitude
+     * @param id          ID de l'image fournie
      * @return Une nouvelle instance de ArticleFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -104,9 +107,7 @@ public class ArticleFragment extends Fragment {
         //TODO fred prevoir une ressource par defaut. ici la ressource est trouvee par son Id
         if (idRessource != 0) {
             imageView.setImageResource(idRessource);
-        }
-        else if (mParam1 != null)
-        {
+        } else if (mParam1 != null) {
             imageView.setImageURI(Uri.parse(mParam1));
         }
 
@@ -197,7 +198,8 @@ public class ArticleFragment extends Fragment {
         void showOnMap(LatLng toto, String nom);
 
         @RequiresApi(api = Build.VERSION_CODES.N)
-        default void TestPrint(){
+        default void TestPrint()
+        {
 //            Toast.makeText(this.getActivity(), Toast.LENGTH_LONG).show();
             Log.i("FRED", "tu es la ?");
         }
