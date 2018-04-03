@@ -59,7 +59,7 @@ public class ArticleBll {
         Articles tout = articleDao.getAllArticles();
         articleDao.close();
         if (tout != null )
-        Log.i(Constantes.MYLOGTAG, "getAllArticles renvoie " + tout.size() + " articles");
+            Log.i(Constantes.MYLOGTAG, "getAllArticles renvoie " + tout.size() + " articles");
 
         return tout;
     }

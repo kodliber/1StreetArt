@@ -80,40 +80,20 @@ public class CarouselFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_carousel, container, false);
+
         //TODO fred generation de fragments de test. A remplacer par un telechargement d'images depuis un serveur
-        // generation de fragments en fonction du nombre d'images
-
-/*
-        String[] imageNames = {"image1", "image2", "image3", "image4"};
-        String[] imageDesc = {"fleurs1\najouté par Bob", "Tigre\npar Julie", "Le tiequar\npar SuperMax", "Soleil\npar Andrea"};
-        Double[] imageLatitude = {48.83673193, 48.84283295, 48.84644802, 48.83808778};
-        Double[] imageLongitude = {2.35153525, 2.3642382, 2.37968772, 2.39170402 };
-
-
-        if (imageNames.length > 0)
-        {
-            for (int i = 0; i < imageNames.length; i++)
-            {
-                ArticleFragment t = ArticleFragment.newInstance(imageNames[i], imageDesc[i], imageLatitude[i], imageLongitude[i] );
-                fragmentCollection.add(t);
-            }
-//        }*/
+        // generation de fragments en fonction du nombre d'images presents dans la BDD
 
         ArticleBll sqliteWorker = new ArticleBll();
         Articles pics = sqliteWorker.getAllArticles(context);
 
         if (pics != null) {
             for (Article article : pics) {
-                ArticleFragment t;
-                t = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
-                fragmentCollection.add(t);
+                ArticleFragment newFragment;
+                newFragment = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
+                fragmentCollection.add(newFragment);
             }
         }
-/*        for (int i = 0; i<=pics.size(); i++)
-        {
-            ArticleFragment t = ArticleFragment.newInstance(pics.get(i).getName(),pics.get(i).getDescription(), pics.get(i).getLatitude(), pics.get(i).getLongitude());
-            fragmentCollection.add(t);
-        }*/
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         myPageAdapter = new MyPageAdapter(getChildFragmentManager());

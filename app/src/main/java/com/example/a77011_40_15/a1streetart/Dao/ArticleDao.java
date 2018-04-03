@@ -146,7 +146,7 @@ public class ArticleDao {
             }while (c.moveToNext());
         }
         close();
-//fred attention a gerer le retour d'un objet NULL !!
+        //fred attention a gerer le retour d'un objet NULL !!
         return articles;
     }
 

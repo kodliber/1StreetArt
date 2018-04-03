@@ -259,24 +259,21 @@ public class HomeActivity extends AppCompatActivity
 
     public void storePhotoToDb()
     {
-        Toast.makeText(context, uri.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
             /*
             FIXMe crash probable si la clef pour l'API google est invalide.
-            Possible si l'application change de signature
-            Prevoir une verification de la validite de l'acces a l'API
+            C'est possible si l'application change de signature
+            TODO fred Prevoir une verification de la validite de l'acces a l'API
             */
-        LatLng l = MapsUtils.LocalizeMe(context);// geolocalisation
+        LatLng l = MapsUtils.LocalizeMe(context);// geolocalisation de la prise de vue
 // enregistrer dans la base de donnees
         Article photo = new Article();
-//            Date d = new Date();
         photo.setLatitude(l.latitude); Log.i(Constantes.MYLOGTAG, String.valueOf(l.latitude));
         photo.setLongitude(l.longitude);Log.i(Constantes.MYLOGTAG, String.valueOf(l.longitude));
         photo.setDate(new Date().toString());
         photo.setName("nom temporaire");
         photo.setUri(uri.toString());
-        photo.setDescription("description");
-// pas besoin de la ressource graphique qui n'est la que pour la version temporaire
-//        photo.setRes(0);
+        photo.setDescription("description non disponible");
 
         sqliteWorker = new ArticleBll();
         sqliteWorker.insertArticle(photo, context);
