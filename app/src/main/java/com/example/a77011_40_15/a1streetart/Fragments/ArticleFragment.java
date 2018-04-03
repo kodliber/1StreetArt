@@ -62,7 +62,7 @@ public class ArticleFragment extends Fragment {
      * @param latitude    Latitude recuperee lors de la prise de vue ou fournie par la BDD si l'image vient du serveur
      * @param longitude   Longitude
      * @param id          ID de l'image fournie
-     * @return Une nouvelle instance de ArticleFragment.
+     * @return Une nouvelle instance de ArticleFragment (un fragment).
      */
     // TODO: Rename and change types and number of parameters
     public static ArticleFragment newInstance(String ressource, String description, double latitude, double longitude, int id)
