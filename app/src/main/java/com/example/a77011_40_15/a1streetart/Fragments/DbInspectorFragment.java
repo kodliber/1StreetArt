@@ -198,14 +198,14 @@ public class DbInspectorFragment extends Fragment {
         startActivity(intent);
     }
 
-    private class CustomAdapter extends RecyclerView.Adapter {
+    public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
         private Articles liste;
 
         // charger le layout du holder
         @Override
         public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
-            View holder = LayoutInflater.from(context).inflate(R.layout.viewholder_dbinspector, parent, false);
+            final View holder = LayoutInflater.from(context).inflate(R.layout.viewholder_dbinspector, parent, false);
             Log.i(Constantes.MYLOGTAG, "creation de viewholder");
 
             Button btnPick = holder.findViewById(R.id.btnIntentPick);
@@ -256,17 +256,17 @@ public class DbInspectorFragment extends Fragment {
 
         // cette methode va peupler les donnees du holder avec celles du tableau de photos
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position)
+        public void onBindViewHolder(CustomViewHolder holder, int position)
         {
             Article unePhoto = liste.get(position);
             String comboIdName = unePhoto.getId() + " " + unePhoto.getName();
-            ((CustomViewHolder) holder).photoname.setText(comboIdName);
-            ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
-            ((CustomViewHolder) holder).photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
-            ((CustomViewHolder) holder).photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
-            ((CustomViewHolder) holder).photouri.setText(unePhoto.getUri());
-            ((CustomViewHolder) holder).photodate.setText(unePhoto.getDate());
-            ((CustomViewHolder) holder).photoid.setText(String.valueOf(unePhoto.getId()));
+            holder.photoname.setText(comboIdName);
+            holder.photodesc.setText(unePhoto.getDescription());
+            holder.photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
+            holder.photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
+            holder.photouri.setText(unePhoto.getUri());
+            holder.photodate.setText(unePhoto.getDate());
+            holder.photoid.setText(String.valueOf(unePhoto.getId()));
 
         }
 
@@ -282,7 +282,7 @@ public class DbInspectorFragment extends Fragment {
             liste = arrayList;
             liste = bll.getAllArticles(context);// le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
         }
-
+    }
         /**
          * Suppression des donnees de l'image dans la BDD SQLite (pas du fichier physique !!)
          */
@@ -297,6 +297,6 @@ public class DbInspectorFragment extends Fragment {
 //            myAdapter.notifyItemRemoved(picId);
 
         }
-    }
+
 
 }
