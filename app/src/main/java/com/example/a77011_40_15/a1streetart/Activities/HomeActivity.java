@@ -230,20 +230,7 @@ public class HomeActivity extends AppCompatActivity
     public void showOnMap(LatLng place, String nom)
     {
         googlemapFrag.walkTo(place, nom);
-//        Toast.makeText(context, "o", Toast.LENGTH_LONG).show();
     }
-
-    /**
-     * Test des methodes par defaut dans les interfaces.
-     * En principe disponible avec Java 8 / android SDK 7.
-     * Apparemment sans resultat.
-
-    @Override
-    public void TestPrint()
-    {
-        ArticleFragment.OnFragmentInteractionListener.super.TestPrint();
-    }
-   */
 
 
     /**
@@ -296,5 +283,6 @@ public class HomeActivity extends AppCompatActivity
 
         return photofile;
     }
+
 
 }
