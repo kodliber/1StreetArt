@@ -175,7 +175,7 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.action_login) {
             LatLng test = new LatLng(40.7143528, -74.0059731);
             googlemapFrag.walkTo(test, "NY");
-            TestPrint();
+//            TestPrint();
             return true;
         }
 
@@ -220,9 +220,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     /**
-     * implementation de l'interface du fragment Article
+     * implementation de l'interface du fragment Article et du fragment SlideShow
      * <br>
-     * un clic sur l'imageView declenche un deplacement de la carte en appelant la methode publique walkTo du fragment Map.
+     * un clic sur l'imageView déclenche un déplacement de la carte en appelant la methode publique "walkTo" du fragment Map.
      *
      * @param place est un objet contenant des coordonnées GPS
      */
@@ -237,12 +237,14 @@ public class HomeActivity extends AppCompatActivity
      * Test des methodes par defaut dans les interfaces.
      * En principe disponible avec Java 8 / android SDK 7.
      * Apparemment sans resultat.
-     */
+
     @Override
     public void TestPrint()
     {
         ArticleFragment.OnFragmentInteractionListener.super.TestPrint();
     }
+   */
+
 
     /**
      * Retour de l'application photo appelée par le <i>floating action button</i>
@@ -273,9 +275,9 @@ public class HomeActivity extends AppCompatActivity
         photo.setLatitude(l.latitude); Log.i(Constantes.MYLOGTAG, String.valueOf(l.latitude));
         photo.setLongitude(l.longitude);Log.i(Constantes.MYLOGTAG, String.valueOf(l.longitude));
         photo.setDate(new Date().toString());
-        photo.setName("nom temporaire");
+        photo.setName("nom temporaire"); //TODO fred à coder
         photo.setUri(uri.toString());
-        photo.setDescription("description non disponible");
+        photo.setDescription("description non disponible"); // TODO la description pourra venir de la base de données
 
         sqliteWorker = new ArticleBll();
         sqliteWorker.insertArticle(photo, context);
@@ -283,7 +285,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     /**
-     * cette methode est declenchee avant l'ouverture de la camera
+     * cette methode est déclenchée avant l'ouverture de la camera
      *
      * @return fournit un objet File a l'activite camera
      */

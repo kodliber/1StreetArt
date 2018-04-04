@@ -197,12 +197,12 @@ public class ArticleFragment extends Fragment {
 //        void onFragmentInteraction(String toto);
         void showOnMap(LatLng toto, String nom);
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
+/*        @RequiresApi(api = Build.VERSION_CODES.N)
         default void TestPrint()
         {
 //            Toast.makeText(this.getActivity(), Toast.LENGTH_LONG).show();
             Log.i("FRED", "tu es la ?");
-        }
+        }*/
 
     }
 
