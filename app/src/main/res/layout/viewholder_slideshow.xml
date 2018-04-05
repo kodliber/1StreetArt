@@ -23,7 +23,6 @@
             android:text="@string/dummy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             />
 
         <TextView
@@ -31,8 +30,8 @@
             android:text="@string/dummy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             />
+
 
 
     </LinearLayout>

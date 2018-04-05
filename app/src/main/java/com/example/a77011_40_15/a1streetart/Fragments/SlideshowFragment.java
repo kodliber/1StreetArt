@@ -24,8 +24,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
 /**
- * SlideShowFragment remplace Carousel dont la gestion de fragment a la volee semblait buggee.
- * Ici on utilisera un simple recyclerView.
+ * SlideShowFragment remplace Carousel dont la gestion de fragment a la volée semblait buggée.
+ * Ici on utilisera un simple recyclerView, dont les éléments affichent l'image et ses informations
+ * L'avantage du Viewpager est qu'il affiche les vues en entier alors que le recyclerview peut afficher des "bouts" de vues.
  * <p>
  * Activities that contain this fragment must implement the
  * {@link SlideshowFragment.OnFragmentInteractionListener} interface
@@ -217,7 +218,7 @@ public class SlideshowFragment extends Fragment
         }
     }
 
-    private class CustomAdapter extends RecyclerView.Adapter
+    private class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder>
     {
         private Articles liste;
 
@@ -231,14 +232,15 @@ public class SlideshowFragment extends Fragment
 
         // liaison des donnees du tableau de photos avec les views de chaque holder
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        public void onBindViewHolder(CustomViewHolder holder, int position)
         {
             Article unePhoto = liste.get(position);
-            ((CustomViewHolder) holder).imageV.setImageURI(Uri.parse(unePhoto.getUri()));
-            ((CustomViewHolder) holder).photoname.setText(unePhoto.getName());
-            ((CustomViewHolder) holder).photodesc.setText(unePhoto.getDescription());
-            ((CustomViewHolder) holder).photolatitude = unePhoto.getLatitude();
-            ((CustomViewHolder) holder).photolongitude = unePhoto.getLongitude();
+            holder.imageV.setImageURI(Uri.parse(unePhoto.getUri()));
+            holder.photoname.setText(unePhoto.getName());
+            holder.photodesc.setText(unePhoto.getDescription());
+            holder.photolatitude = unePhoto.getLatitude();
+            holder.photolongitude = unePhoto.getLongitude();
+            holder.photoid = unePhoto.getId();
 
         }
 
