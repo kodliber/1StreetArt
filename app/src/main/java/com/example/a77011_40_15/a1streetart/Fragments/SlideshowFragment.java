@@ -197,7 +197,7 @@ public class SlideshowFragment extends Fragment
             photoname = view.findViewById(R.id.picturename);
             photodesc = view.findViewById(R.id.picturedescription);
             imageV = view.findViewById(R.id.imageView);
-            photolatitude = 0;
+            photolatitude = 0; // fred peut-etre pas besoin d'initialiser
             photolongitude = 0;
 //            photoid = view.findViewById(R.id.dbid);
 //            photouri = view.findViewById(R.id.dburi);
