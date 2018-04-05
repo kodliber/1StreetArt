@@ -180,11 +180,16 @@ public class SlideshowFragment extends Fragment
         void showOnMap(LatLng l, String s);
     }
 
+    /**
+     * @photouri URI vers le fichier local
+     * @photoid sera concaténé avec le nom de l'image par exemple
+     */
     private class CustomViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView photouri, photoid, photodesc, photoname, photodate;
+        private TextView photouri, photodesc, photoname, photodate, photoid;
         private double photolatitude, photolongitude;
         private ImageView imageV;
+        private int photo_id;
 
         public CustomViewHolder(View view)
         {
@@ -235,12 +240,15 @@ public class SlideshowFragment extends Fragment
         public void onBindViewHolder(CustomViewHolder holder, int position)
         {
             Article unePhoto = liste.get(position);
+            holder.photo_id = unePhoto.getId();
+            String name = unePhoto.getName() + " " + holder.photo_id;
+
+            holder.photoname.setText(name);
+
             holder.imageV.setImageURI(Uri.parse(unePhoto.getUri()));
-            holder.photoname.setText(unePhoto.getName());
             holder.photodesc.setText(unePhoto.getDescription());
             holder.photolatitude = unePhoto.getLatitude();
             holder.photolongitude = unePhoto.getLongitude();
-            holder.photoid = unePhoto.getId();
 
         }
 
