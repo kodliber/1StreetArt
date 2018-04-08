@@ -40,7 +40,12 @@ import java.util.Date;
 
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ArticleFragment.OnFragmentInteractionListener, SlideshowFragment.OnFragmentInteractionListener
+        implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ArticleFragment.OnFragmentInteractionListener,
+        SlideshowFragment.OnFragmentInteractionListener,
+        DbInspectorFragment.OnFragmentInteractionListener
+
 {
     Context context;
     FragmentManager fragmentManager = null;
@@ -49,6 +54,7 @@ public class HomeActivity extends AppCompatActivity
     ArticleBll sqliteWorker;
 
     GoogleMapsFragment googlemapFrag;
+    Fragment slideshowFrag;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
 
@@ -102,6 +108,8 @@ public class HomeActivity extends AppCompatActivity
         //TODO fred quand on clique sur la carte, on passe à l'activité du parcours
 
         // acceder aux fragment d'images
+        slideshowFrag = new SlideshowFragment();
+        slideshowFrag = fragmentManager.findFragmentById(R.id.carrousselFragment);
 
 //        Fragment carroussel = new ArticleFragment();
 //        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
@@ -219,18 +227,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * implementation de l'interface du fragment Article et du fragment SlideShow
-     * <br>
-     * un clic sur l'imageView déclenche un déplacement de la carte en appelant la methode publique "walkTo" du fragment Map.
-     *
-     * @param place est un objet contenant des coordonnées GPS
-     */
-    @Override
-    public void showOnMap(LatLng place, String nom)
-    {
-        googlemapFrag.walkTo(place, nom);
-    }
+
 
 
     /**
@@ -284,5 +281,26 @@ public class HomeActivity extends AppCompatActivity
         return photofile;
     }
 
+    /**
+     * implementation de l'interface du fragment Article et du fragment SlideShow
+     * <br>
+     * un clic sur l'imageView déclenche un déplacement de la carte en appelant la methode publique "walkTo" du fragment Map.
+     *
+     * @param place est un objet contenant des coordonnées GPS
+     */
+    @Override
+    public void showOnMap(LatLng place, String nom)
+    {
+        googlemapFrag.walkTo(place, nom);
+    }
 
+    /**
+     * envoi d'un signal refresh au fragment slideshow
+     * @param uri
+     */
+    @Override
+    public void sendRefresh(Uri uri)
+    {
+        slideshowFrag.onResume();
+    }
 }

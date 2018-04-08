@@ -6,7 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
@@ -100,6 +101,30 @@ public class SlideshowFragment extends Fragment
 
 
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+/*        ArticleBll sqliteWorker = new ArticleBll();
+        Articles pics;
+        pics = sqliteWorker.getAllArticles(context);//lecture depuis la BDD
+
+        if (pics != null)
+        {
+            Toast.makeText(context, "onresume", Toast.LENGTH_SHORT).show();
+            for (Article article : pics)
+            {
+                ArticleFragment newFragment;
+                newFragment = ArticleFragment.newInstance(article.getUri(), article.getDescription(), article.getLatitude(), article.getLongitude(), article.getId());
+                fragmentCollection.add(newFragment);
+            }
+        }*/
+
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit(); // tenter de rafraîchir le fragment
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -258,7 +283,6 @@ public class SlideshowFragment extends Fragment
             View aHolder = LayoutInflater.from(context).inflate(R.layout.viewholder_slideshow, parent, false);
             return new CustomViewHolder(aHolder);
         }
-
 
 
         @Override

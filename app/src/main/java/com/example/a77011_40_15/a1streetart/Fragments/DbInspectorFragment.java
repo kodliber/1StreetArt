@@ -40,7 +40,8 @@ import java.util.Iterator;
  * Use the {@link DbInspectorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DbInspectorFragment extends Fragment {
+public class DbInspectorFragment extends Fragment
+{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -87,7 +88,8 @@ public class DbInspectorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -110,13 +112,15 @@ public class DbInspectorFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri)
+    /*public void onButtonPressed(Uri uri)
     {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+        if (mListener != null)
+        {
+//            mListener.onFragmentInteraction(uri);
+//            mListener.sendRefresh(uri);
         }
     }
-
+*/
     @TargetApi(23)
     @Override
     public void onAttach(Context context)
@@ -124,9 +128,11 @@ public class DbInspectorFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
 
-        if (context instanceof OnFragmentInteractionListener) {
+        if (context instanceof OnFragmentInteractionListener)
+        {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
+        } else
+        {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
@@ -138,7 +144,8 @@ public class DbInspectorFragment extends Fragment {
         this.activity = activity;
         super.onAttach(activity);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        {
             this.context = activity.getBaseContext();
         }
     }
@@ -161,13 +168,18 @@ public class DbInspectorFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+//        void onFragmentInteraction(Uri uri);
+
+        void sendRefresh (Uri uri);
+
     }
 
     //TODO fred  ne pas oublier les donnees qui manquent
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    class CustomViewHolder extends RecyclerView.ViewHolder
+    {
         public TextView photouri, photoid, photodesc, photoname, photolatitude, photolongitude, photodate;
 
         public CustomViewHolder(View view)
@@ -182,6 +194,7 @@ public class DbInspectorFragment extends Fragment {
             photodate = view.findViewById(R.id.dbdate);
         }
     }
+
     // lancement de Google Photos
     private void PhotoStartGooglePhotos()
     {
@@ -198,7 +211,8 @@ public class DbInspectorFragment extends Fragment {
         startActivity(intent);
     }
 
-    public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
+    public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder>
+    {
         private Articles liste;
 
         // charger le layout du holder
@@ -209,7 +223,8 @@ public class DbInspectorFragment extends Fragment {
             Log.i(Constantes.MYLOGTAG, "creation de viewholder");
 
             Button btnPick = holder.findViewById(R.id.btnIntentPick);
-            btnPick.setOnClickListener(new View.OnClickListener() {
+            btnPick.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View view)
                 {
@@ -218,7 +233,8 @@ public class DbInspectorFragment extends Fragment {
             });
 
             Button btnPhotos = holder.findViewById(R.id.btnIntentPhotos);
-            btnPhotos.setOnClickListener(new View.OnClickListener() {
+            btnPhotos.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View view)
                 {
@@ -227,7 +243,8 @@ public class DbInspectorFragment extends Fragment {
             });
 
             Button btnSuppress = holder.findViewById(R.id.btnSuppress);
-            btnSuppress.setOnClickListener(new View.OnClickListener() {
+            btnSuppress.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View view)
                 {
@@ -239,31 +256,36 @@ public class DbInspectorFragment extends Fragment {
 
                     // mettre a jour la collection avec un iterator
                     Iterator<Article> iter = liste.iterator();
-                    while (iter.hasNext()) {
-                        if (iter.next().getId() == thePicId) {
+                    while (iter.hasNext())
+                    {
+                        if (iter.next().getId() == thePicId)
+                        {
                             iter.remove();
 //                            Log.i(Constantes.MYLOGTAG, "thePic id =" + thePicId + " was removed");
                         }
                     }
 
-                    myAdapter.notifyItemRemoved(thePicId); // ne provoque pas un rafraichissement du recyclerView coherent
+                    myAdapter.notifyItemRemoved(thePicId); // ne provoque pas un rafraichissement du recyclerView
                     myAdapter.notifyDataSetChanged();
+
+                    // TODO FRED maintenant que la liste est à jour, il faut lancer le refresh du slideshow
                 }
             });
 
             return new CustomViewHolder(holder);
         }
 
+
         // cette methode va peupler les donnees du holder avec celles du tableau de photos
         @Override
         public void onBindViewHolder(CustomViewHolder holder, int position)
         {
             Article unePhoto = liste.get(position);
-            String comboIdName = unePhoto.getId() + " " + unePhoto.getName();
+            String comboIdName = unePhoto.getId() + "-" + unePhoto.getName();
             holder.photoname.setText(comboIdName);
             holder.photodesc.setText(unePhoto.getDescription());
-            holder.photolatitude.setText(String.valueOf(unePhoto.getLatitude()));
-            holder.photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
+            holder.photolatitude.setText(String.valueOf(unePhoto.getLatitude() + " " + String.valueOf(unePhoto.getLongitude())));
+//            holder.photolongitude.setText(String.valueOf(unePhoto.getLongitude()));
             holder.photouri.setText(unePhoto.getUri());
             holder.photodate.setText(unePhoto.getDate());
             holder.photoid.setText(String.valueOf(unePhoto.getId()));
@@ -283,20 +305,20 @@ public class DbInspectorFragment extends Fragment {
             liste = bll.getAllArticles(context);// le tableau qui sera lie dans l'adapter avec la fonction onBindViewHolder
         }
     }
-        /**
-         * Suppression des donnees de l'image dans la BDD SQLite (pas du fichier physique !!)
-         */
-        private void PhotoSuppressFromDb(int picId, Context context)
-        {
-            Toast.makeText(context, "id = " + picId, Toast.LENGTH_SHORT).show();
-            ArticleBll bll = new ArticleBll();
-            bll.deleteArticle(picId, context);
-            // Mettre a jour la collection !
+
+    /**
+     * Suppression des donnees de l'image dans la BDD SQLite (pas du fichier physique !!)
+     */
+    private void PhotoSuppressFromDb(int picId, Context context)
+    {
+        Toast.makeText(context, "id = " + picId, Toast.LENGTH_SHORT).show();
+        ArticleBll bll = new ArticleBll();
+        bll.deleteArticle(picId, context);
+        // Mettre a jour la collection !
 //            liste.remove(picId);
 
 //            myAdapter.notifyItemRemoved(picId);
 
-        }
-
+    }
 
 }
