@@ -42,7 +42,7 @@ import java.util.Date;
 public class HomeActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
-        ArticleFragment.OnFragmentInteractionListener,
+//        ArticleFragment.OnFragmentInteractionListener,
         SlideshowFragment.OnFragmentInteractionListener,
         DbInspectorFragment.OnFragmentInteractionListener
 
@@ -54,8 +54,10 @@ public class HomeActivity extends AppCompatActivity
     ArticleBll sqliteWorker;
 
     GoogleMapsFragment googlemapFrag;
-    Fragment slideshowFrag;
+    SlideshowFragment slideshowFrag;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+
 
 
     @Override
@@ -109,7 +111,7 @@ public class HomeActivity extends AppCompatActivity
 
         // acceder aux fragment d'images
         slideshowFrag = new SlideshowFragment();
-        slideshowFrag = fragmentManager.findFragmentById(R.id.carrousselFragment);
+        slideshowFrag = (SlideshowFragment) fragmentManager.findFragmentById(R.id.carrousselFragment);
 
 //        Fragment carroussel = new ArticleFragment();
 //        Fragment carroussel = fragmentManager.findFragmentByTag("carrousselFragment");
@@ -303,4 +305,13 @@ public class HomeActivity extends AppCompatActivity
     {
         slideshowFrag.onResume();
     }
+
+    @Override
+    public void sendDataSetChanged()
+    {
+        slideshowFrag.reloadDataSet();
+    }
+
+
+
 }

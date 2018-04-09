@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.a77011_40_15.a1streetart.Dao.ArticleBll;
 import com.example.a77011_40_15.a1streetart.Entities.Article;
 import com.example.a77011_40_15.a1streetart.Entities.Articles;
 import com.example.a77011_40_15.a1streetart.R;
+import com.example.a77011_40_15.a1streetart.Utils.Constantes;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -123,7 +125,7 @@ public class SlideshowFragment extends Fragment
             }
         }*/
 
-        getFragmentManager().beginTransaction().detach(this).attach(this).commit(); // tenter de rafraîchir le fragment
+//        getFragmentManager().beginTransaction().detach(this).attach(this).commit(); // tenter de rafraîchir le fragment
 
     }
 
@@ -189,6 +191,12 @@ public class SlideshowFragment extends Fragment
         mListener = null;
     }
 
+    // signaler qu'on a reçu la notification que le dataset a été rafraichi
+    public void reloadDataSet(){
+        Toast.makeText(context, "reload reçu", Toast.LENGTH_SHORT).show();
+    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -235,13 +243,16 @@ public class SlideshowFragment extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    //appeler l'interface
+                    //appeler la methode d'interface
 
                     LatLng emplacement = new LatLng(photolatitude, photolongitude);// il me semble que ce genre de code en javascript ne donnerait pas le meme resultat ! A moins de faire une closure
                     String markerName = photoname.getText().toString();
 
                     if (mListener != null)
                         mListener.showOnMap(emplacement, markerName);
+                    else{
+                        Log.e(Constantes.MYLOGTAG, "Revoir le mListener du fragment Slideshow");
+                    }
                 }
             });
 

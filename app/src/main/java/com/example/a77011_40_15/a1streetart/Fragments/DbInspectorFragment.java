@@ -51,13 +51,13 @@ public class DbInspectorFragment extends Fragment
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView theRecyclerView = null;
-
     private OnFragmentInteractionListener mListener;
     private Context context;
     private Activity activity = null;
     private Articles lesPhotos = null;
-    CustomAdapter myAdapter;
+
+    private RecyclerView theRecyclerView = null;
+    private CustomAdapter myAdapter;
 
 
     public DbInspectorFragment()
@@ -138,6 +138,7 @@ public class DbInspectorFragment extends Fragment
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity)
     {
@@ -147,7 +148,9 @@ public class DbInspectorFragment extends Fragment
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
         {
             this.context = activity.getBaseContext();
+//            mListener = (OnFragmentInteractionListener) this.context;
         }
+
     }
 
 
@@ -175,6 +178,7 @@ public class DbInspectorFragment extends Fragment
 
         void sendRefresh (Uri uri);
 
+        void sendDataSetChanged();
     }
 
     //TODO fred  ne pas oublier les donnees qui manquent
@@ -269,6 +273,13 @@ public class DbInspectorFragment extends Fragment
                     myAdapter.notifyDataSetChanged();
 
                     // TODO FRED maintenant que la liste est à jour, il faut lancer le refresh du slideshow
+                    // utilisation de l'interface pour avertir l'activity qui va relayer au slideshow
+                    if (mListener != null)
+                        mListener.sendDataSetChanged();
+                    else
+                    {
+                        Log.e(Constantes.MYLOGTAG, "revoir le fonctionnement du mListener dans le fragment dbinspector");
+                    }
                 }
             });
 
