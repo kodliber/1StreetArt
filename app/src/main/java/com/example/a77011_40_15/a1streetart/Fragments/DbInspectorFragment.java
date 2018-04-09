@@ -148,7 +148,7 @@ public class DbInspectorFragment extends Fragment
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
         {
             this.context = activity.getBaseContext();
-//            mListener = (OnFragmentInteractionListener) this.context;
+            mListener = (OnFragmentInteractionListener) activity;
         }
 
     }

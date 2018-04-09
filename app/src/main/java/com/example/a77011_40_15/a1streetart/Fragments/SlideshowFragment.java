@@ -50,6 +50,7 @@ public class SlideshowFragment extends Fragment
     private Context context;
     private Activity activity;
     private Articles manyPictures;
+    CustomAdapter aCustomAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -98,7 +99,7 @@ public class SlideshowFragment extends Fragment
 
         recyclerView.setLayoutManager(llm);
 
-        CustomAdapter aCustomAdapter = new CustomAdapter(manyPictures, context);
+        aCustomAdapter = new CustomAdapter(manyPictures, context);
         recyclerView.setAdapter(aCustomAdapter);
 
 
@@ -166,6 +167,8 @@ public class SlideshowFragment extends Fragment
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
         {
             this.context = activity.getBaseContext();
+            mListener = (OnFragmentInteractionListener) activity;
+            Log.e (Constantes.MYLOGTAG, "Le Listener est ok pour Android 5");
         }
 
     }
@@ -191,10 +194,7 @@ public class SlideshowFragment extends Fragment
         mListener = null;
     }
 
-    // signaler qu'on a reçu la notification que le dataset a été rafraichi
-    public void reloadDataSet(){
-        Toast.makeText(context, "reload reçu", Toast.LENGTH_SHORT).show();
-    }
+
 
 
     /**
@@ -301,5 +301,14 @@ public class SlideshowFragment extends Fragment
         {
             return liste.size();
         }
+    }
+
+    // signaler qu'on a reçu la notification que le dataset a été rafraichi
+    //TODO Fred il faut mettre à jour ce dataset lorsqu'il y a une suppression, car le fragment n'est pas rechargé quand on quitte le fragment dbinspector !!!
+    //soit le recharger artificiellement, soit gérer la supression qui a été effectuée depuis dbinspector.
+    public void reloadDataSet(){
+        Toast.makeText(context, "reload reçu", Toast.LENGTH_SHORT).show();
+//        aCustomAdapter.notifyItemRemoved();
+        aCustomAdapter.notifyDataSetChanged();
     }
 }
