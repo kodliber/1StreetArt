@@ -52,7 +52,7 @@ public class SlideshowFragment extends Fragment
     private Articles manyPictures;
     CustomAdapter aCustomAdapter;
 
-    private OnFragmentInteractionListener mListener;
+    public OnFragmentInteractionListener mListener;
 
     public SlideshowFragment()
     {
@@ -75,6 +75,7 @@ public class SlideshowFragment extends Fragment
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -211,6 +212,7 @@ public class SlideshowFragment extends Fragment
     {
         // TODO: Update argument type and name
         void showOnMap(LatLng l, String s);
+        void refresh();
     }
 
     /**

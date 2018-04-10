@@ -58,8 +58,6 @@ public class HomeActivity extends AppCompatActivity
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -73,14 +71,16 @@ public class HomeActivity extends AppCompatActivity
 
         // le FAB démarre l'application photo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
                 Snackbar.make(view, "Prêt à prendre une photo ?", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
 
-                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
+                {
 
                     File file = getMediaFile();
                     uri = Uri.fromFile(file);
@@ -89,7 +89,8 @@ public class HomeActivity extends AppCompatActivity
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
-                } else {
+                } else
+                {
                     Toast.makeText(context, "Pas de camera ?", Toast.LENGTH_LONG).show();
                 }
             }
@@ -127,6 +128,7 @@ public class HomeActivity extends AppCompatActivity
 
     /**
      * Surcharge dans le cas d'une gestion de 2 framelayout
+     *
      * @param fragment
      * @param cible
      */
@@ -150,9 +152,11 @@ public class HomeActivity extends AppCompatActivity
     public void onBackPressed()
     {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else
+        {
             super.onBackPressed();
         }
     }
@@ -174,7 +178,8 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             Intent i = new Intent(this, SettingsActivity.class);
 
             startActivity(i);
@@ -182,14 +187,16 @@ public class HomeActivity extends AppCompatActivity
         }
 
         // ceci est un test pour la fonction walkTo vers New York
-        if (id == R.id.action_login) {
+        if (id == R.id.action_login)
+        {
             LatLng test = new LatLng(40.7143528, -74.0059731);
             googlemapFrag.walkTo(test, "NY");
 //            TestPrint();
             return true;
         }
 
-        if (id == R.id.action_exit) {
+        if (id == R.id.action_exit)
+        {
             finish();
             return true;
         }
@@ -204,23 +211,29 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_camera)
+        {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery)
+        {
 
-        } else if (id == R.id.nav_map) {
+        } else if (id == R.id.nav_map)
+        {
             loadFragment(googlemapFrag);
 
-        } else if (id == R.id.nav_dbinspector) {
+        } else if (id == R.id.nav_dbinspector)
+        {
             // afficher le fragment dbInspector
             if (dbi == null)
                 dbi = new DbInspectorFragment();
 //            dbi = findViewById();
             loadFragment(dbi);
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share)
+        {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send)
+        {
 
         }
 
@@ -228,8 +241,6 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 
     /**
@@ -242,7 +253,8 @@ public class HomeActivity extends AppCompatActivity
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
+        {
             storePhotoToDb();
         }
     }
@@ -256,10 +268,12 @@ public class HomeActivity extends AppCompatActivity
             TODO fred Prevoir une verification de la validite de l'acces a l'API
             */
         LatLng l = MapsUtils.LocalizeMe(context);// geolocalisation de la prise de vue
-// enregistrer dans la base de donnees
+        // enregistrer dans la base de donnees
         Article photo = new Article();
-        photo.setLatitude(l.latitude); Log.i(Constantes.MYLOGTAG, String.valueOf(l.latitude));
-        photo.setLongitude(l.longitude);Log.i(Constantes.MYLOGTAG, String.valueOf(l.longitude));
+        photo.setLatitude(l.latitude);
+        Log.i(Constantes.MYLOGTAG, String.valueOf(l.latitude));
+        photo.setLongitude(l.longitude);
+        Log.i(Constantes.MYLOGTAG, String.valueOf(l.longitude));
         photo.setDate(new Date().toString());
         photo.setName("nom temporaire"); //TODO fred à coder
         photo.setUri(uri.toString());
@@ -296,8 +310,17 @@ public class HomeActivity extends AppCompatActivity
         googlemapFrag.walkTo(place, nom);
     }
 
+    @Override
+    public void refresh()
+    {
+        // rafraichissement du fragment slideshow
+        slideshowFrag.reloadDataSet();
+
+    }
+
     /**
      * envoi d'un signal refresh au fragment slideshow
+     *
      * @param uri
      */
     @Override
@@ -306,12 +329,15 @@ public class HomeActivity extends AppCompatActivity
         slideshowFrag.onResume();
     }
 
+    /**
+     * Le fragment dbinspector signale un rafraichissement du dataset
+     */
     @Override
     public void sendDataSetChanged()
     {
-        slideshowFrag.reloadDataSet();
+//        slideshowFrag.reloadDataSet();
+        refresh();
     }
-
 
 
 }
