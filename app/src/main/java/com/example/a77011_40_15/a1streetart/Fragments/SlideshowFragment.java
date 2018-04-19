@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 /**
  * SlideShowFragment remplace Carousel dont la gestion de fragment a la volée semblait buggée.
- * Ici on utilisera un simple recyclerView, dont les éléments affichent l'image et ses informations
+ * Ici on utilisera un recyclerView, dont les éléments affichent l'image et ses informations
  * L'avantage du Viewpager est qu'il affiche les vues en entier alors que le recyclerview peut afficher des "bouts" de vues.
  * <p>
  * Activities that contain this fragment must implement the
@@ -229,6 +229,8 @@ public class SlideshowFragment extends Fragment
         public CustomViewHolder(View view)
         {
             super(view);
+
+            // TODO voir comment on peut "mettre en cache" les références aux ressources, puisque cette méthode sera appelée x fois selon le nombre de viewholders à créer
             photoname = view.findViewById(R.id.picturename);
             photodesc = view.findViewById(R.id.picturedescription);
             imageV = view.findViewById(R.id.imageView);
